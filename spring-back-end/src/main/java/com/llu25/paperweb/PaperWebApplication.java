@@ -2,30 +2,42 @@ package com.llu25.paperweb;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 @CrossOrigin(origins = "*")
 @RestController
 @SpringBootApplication
 public class PaperWebApplication {
 
-    @GetMapping("/getAllPaper")
-    public List<Paper> generateJsonArray() {
-        List<Paper> list = new LinkedList<>();
-        list.add(new Paper("paper1", "good"));
-        list.add(new Paper("paper2", "ok"));
-        list.add(new Paper("paper3", "bad"));
-        return list;
+    private Map<NewsType, LRU<List<News>>> news;
+    private Map<String, LRU<List<News>>> searchHistory;
+
+    public PaperWebApplication() {
+        news = new HashMap<>();
+        searchHistory = new HashMap<>();
+        Timer timer = new Timer();
+        timer.schedule(new UpdateNewsService(this), 0, 10000000);//1000 Min
+    }
+
+    @GetMapping("/getLatestNews")
+    @ResponseBody
+    public List<News> getLatestNews(@RequestParam int id) {
+        if (!news.containsKey(NewsType.ALL)) return new LinkedList<>();
+        List<News> list = news.get(NewsType.ALL).get(id);
+        return list == null ? new LinkedList<>() : list;
+    }
+
+    public Map<NewsType, LRU<List<News>>> getNews() {
+        return news;
+    }
+
+    public Map<String, LRU<List<News>>> getSearchHistory() {
+        return searchHistory;
     }
 
     public static void main(String[] args) {
         SpringApplication.run(PaperWebApplication.class, args);
     }
-
-
 }

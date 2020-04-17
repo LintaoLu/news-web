@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { NewsService } from './news.service';
 
 @Component({
   selector: 'app-root',
@@ -7,14 +8,12 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./app.component.css']
 })
 
-export class AppComponent implements OnInit {
+export class AppComponent {
   title = 'paper-web';
-  papers: any;
+  news: any;
 
-  constructor(private http: HttpClient) { }
-
-  ngOnInit() {
-    this.http.get('http://localhost:8080/getAllPaper').subscribe(
-      (data) => this.papers = data );
+  constructor(private newsService: NewsService) { 
+    newsService.getLatestNews().subscribe(
+      (data) => this.news = data );
   }
 }
