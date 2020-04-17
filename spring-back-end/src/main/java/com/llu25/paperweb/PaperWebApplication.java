@@ -3,7 +3,6 @@ package com.llu25.paperweb;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.*;
 
 @CrossOrigin(origins = "*")
@@ -18,7 +17,7 @@ public class PaperWebApplication {
         news = new HashMap<>();
         searchHistory = new HashMap<>();
         Timer timer = new Timer();
-        timer.schedule(new UpdateNewsService(this), 0, 10000000);//1000 Min
+        timer.schedule(new UpdateNewsService(this), 0, 10000000); //1000 Min
     }
 
     @GetMapping("/getLatestNews")

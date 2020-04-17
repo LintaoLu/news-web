@@ -8,7 +8,7 @@ export class NewsService {
 
   constructor(private http: HttpClient) { }
 
-  public getLatestNews() {
-    return this.http.get('http://localhost:8080/getLatestNews?id=1');
+  public getLatestNews(id:number) {
+    return this.http.get('http://localhost:8080/getLatestNews?id=' + id);
   }
 }
