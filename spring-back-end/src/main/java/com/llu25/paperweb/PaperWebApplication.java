@@ -65,7 +65,7 @@ public class PaperWebApplication {
                 break;
             default:
                 if (!searchHistory.containsKey(ip) || !searchHistory.get(ip).getKey().equals(keyword)) {
-                    LRU<List<News>> news = Utils.parseNewsJson(Utils.getJson(NewsType.SEARCH, keyword));
+                    LRU<List<News>> news = Utils.parseNewsJson(Utils.getJson(keyword));
                     searchHistory.put(ip, new Pair<>(keyword, news));
                 }
                 list = searchHistory.get(ip).getValue().get(id);

@@ -8,5 +8,4 @@ public enum NewsType {
     ENTERTAINMENT,
     TECHNOLOGY,
     HEALTH,
-    SEARCH
 }
