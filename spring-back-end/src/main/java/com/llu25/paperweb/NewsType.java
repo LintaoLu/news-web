@@ -1,8 +1,11 @@
 package com.llu25.paperweb;
 
 public enum NewsType {
-    LATEST,
-    SPORT,
-    TECH,
-    ALL
+    SPORTS,
+    SCIENCE,
+    GENERAL,
+    BUSINESS,
+    ENTERTAINMENT,
+    TECHNOLOGY,
+    HEALTH
 }

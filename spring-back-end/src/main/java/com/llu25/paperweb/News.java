@@ -3,9 +3,11 @@ package com.llu25.paperweb;
 public class News {
 
     private String source, author, title, description, url, urlToImage, publishedAt;
+    private int id;
 
-    public News(String source, String author, String title, String description,
+    public News(int id, String source, String author, String title, String description,
                 String url, String urlToImage, String publishedAt) {
+        this.id = id;
         this.source = source;
         this.author = author;
         this.title = title;
@@ -13,6 +15,10 @@ public class News {
         this.url = url;
         this.urlToImage = urlToImage;
         this.publishedAt = publishedAt;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getSource() {

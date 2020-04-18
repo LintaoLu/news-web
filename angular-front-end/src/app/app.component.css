@@ -79,7 +79,13 @@ body {
 .lh-125 { line-height: 1.25; }
 .lh-150 { line-height: 1.5; }
 
-.loader {
-  margin-left: auto;
-  margin-right: auto;
+@keyframes moveLeft {
+  from { transform: translateX(1000px);}
+  to { transform: translateX(0px);}
+}
+
+.frame {
+  position: relative;
+  animation-name: moveLeft;
+  animation-duration: 1s;
 }

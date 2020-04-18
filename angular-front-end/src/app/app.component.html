@@ -9,13 +9,12 @@
     <link rel="icon" href="favicon.ico">
 
     <title>Offcanvas template for Bootstrap</title>
-
 </head>
 
 <body class="bg-light">
 
 <nav class="navbar navbar-expand-md fixed-top navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">Stock</a>
+    <a class="navbar-brand" href="#">Demo </a>
     <button class="navbar-toggler p-0 border-0" type="button" data-toggle="offcanvas">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -52,17 +51,13 @@
 
 <div class="nav-scroller bg-white box-shadow">
     <nav class="nav nav-underline">
-        <a class="nav-link active" href="#">
-            Top news
-            <span class="badge badge-pill bg-light align-text-bottom">10</span>
-        </a>
-        <a class="nav-link" href="#">Finace</a>
-        <a class="nav-link" href="#">Sport</a>
-        <a class="nav-link" href="#">Life</a>
-        <a class="nav-link" href="#">Tech</a>
-        <a class="nav-link" href="#">Link</a>
-        <a class="nav-link" href="#">Link</a>
-        <a class="nav-link" href="#">Link</a>
+        <a class="nav-link" (click)="reset('general')" href="#">General</a>
+        <a class="nav-link" (click)="reset('business')" href="#">Business</a>
+        <a class="nav-link" (click)="reset('entertainment')" href="#">Entertainment</a>
+        <a class="nav-link" (click)="reset('health')" href="#">Health</a>
+        <a class="nav-link" (click)="reset('science')" href="#">Science</a>
+        <a class="nav-link" (click)="reset('sports')" href="#">Sports</a>
+        <a class="nav-link" (click)="reset('technology')" href="#">Technology</a>
     </nav>
 </div>
 
@@ -75,21 +70,35 @@
         </div>
     </div>
 
+
     <div *ngFor = "let e of news">
-        <div class="my-3 p-3 bg-white rounded box-shadow">
+        <div class="frame my-3 p-3 bg-white rounded box-shadow">
             <div class="container">
-                <div class="row justify-content-center align-self-center">
-                    <div class="col-md-4">
-                        <img src="{{e.urlToImage}}" class="img-fluid rounded">
+                <div class="row justify-content-center">
+                    <div class="col-md-4 align-self-center">
+                        <img src="{{e.key.urlToImage}}" class="img-fluid rounded">
                     </div>
-                    <div class="col pl-4">
-                        <div class="row pt-3"><h4>{{e.title}}</h4></div>
-                        <div class="row"><p class="text-muted font-italic">{{e.author}} {{e.publishedAt}}</p></div>
-                        <div class="row"><p>{{e.description}}</p></div>
-                        <small class="d-block text-right mt-3">
-                            <a href="{{e.url}}">Read all</a>
-                        </small>
+
+                    <div class="col pl-4 pr-4 align-self-center">
+                        <div class="row pt-3"><h4>{{e.key.title}}</h4></div>
+                        <div class="row"><p class="text-muted font-italic">{{e.key.author}} {{e.key.publishedAt}}</p></div>
+                        <div class="row"><p class="text-justify">{{e.key.description}}<span><small><a href="{{e.key.url}}"> Read more</a></small></span></p></div>
+                        <div class="row float-right pr-4">  
+                            <p>
+                                <button type="button" class="btn btn-outline-dark" (click)="e.val = !e.val"
+                                        [attr.aria-expanded]="!e.val" aria-controls="example">
+                                  <small>Opinion</small>
+                                </button>
+                              </p>
+                        </div>
                     </div>
+                </div>
+            </div>
+        </div>
+        <div id="example" [ngbCollapse]="e.val">
+            <div class="card">
+                <div class="card-body">
+                some data
                 </div>
             </div>
         </div>
@@ -108,16 +117,18 @@
         </div>
     </div>
 
-    <div *ngIf="finished" class="text-center alert alert-light" role="alert">
-        No more news!
+    <div class="pt-2 pb-5">
+        <button *ngIf="finished" type="button" class="btn btn-outline-dark btn-lg btn-block" (click)="backToTop()">
+            No more news!
+        </button>
     </div>
+
 </main>
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
-</body>
+    
+  
+    </body>
 </html>

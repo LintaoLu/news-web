@@ -20,11 +20,59 @@ public class PaperWebApplication {
         timer.schedule(new UpdateNewsService(this), 0, 10000000); //1000 Min
     }
 
-    @GetMapping("/getLatestNews")
+    @GetMapping("/getGeneralNews")
     @ResponseBody
-    public List<News> getLatestNews(@RequestParam int id) {
-        if (!news.containsKey(NewsType.ALL)) return new LinkedList<>();
-        List<News> list = news.get(NewsType.ALL).get(id);
+    public List<News> getGeneralNews(@RequestParam int id) {
+        if (!news.containsKey(NewsType.GENERAL)) return new LinkedList<>();
+        List<News> list = news.get(NewsType.GENERAL).get(id);
+        return list == null ? new LinkedList<>() : list;
+    }
+
+    @GetMapping("/getScienceNews")
+    @ResponseBody
+    public List<News> getScienceNews(@RequestParam int id) {
+        if (!news.containsKey(NewsType.SCIENCE)) return new LinkedList<>();
+        List<News> list = news.get(NewsType.SCIENCE).get(id);
+        return list == null ? new LinkedList<>() : list;
+    }
+
+    @GetMapping("/getBusinessNews")
+    @ResponseBody
+    public List<News> getBusinessNews(@RequestParam int id) {
+        if (!news.containsKey(NewsType.BUSINESS)) return new LinkedList<>();
+        List<News> list = news.get(NewsType.BUSINESS).get(id);
+        return list == null ? new LinkedList<>() : list;
+    }
+
+    @GetMapping("/getSportsNews")
+    @ResponseBody
+    public List<News> getSportsNews(@RequestParam int id) {
+        if (!news.containsKey(NewsType.SPORTS)) return new LinkedList<>();
+        List<News> list = news.get(NewsType.SPORTS).get(id);
+        return list == null ? new LinkedList<>() : list;
+    }
+
+    @GetMapping("/getTechnologyNews")
+    @ResponseBody
+    public List<News> getTechnologyNews(@RequestParam int id) {
+        if (!news.containsKey(NewsType.TECHNOLOGY)) return new LinkedList<>();
+        List<News> list = news.get(NewsType.TECHNOLOGY).get(id);
+        return list == null ? new LinkedList<>() : list;
+    }
+
+    @GetMapping("/getEntertainmentNews")
+    @ResponseBody
+    public List<News> getEntertainmentNews(@RequestParam int id) {
+        if (!news.containsKey(NewsType.ENTERTAINMENT)) return new LinkedList<>();
+        List<News> list = news.get(NewsType.ENTERTAINMENT).get(id);
+        return list == null ? new LinkedList<>() : list;
+    }
+
+    @GetMapping("/getHealthNews")
+    @ResponseBody
+    public List<News> getHealthNews(@RequestParam int id) {
+        if (!news.containsKey(NewsType.HEALTH)) return new LinkedList<>();
+        List<News> list = news.get(NewsType.HEALTH).get(id);
         return list == null ? new LinkedList<>() : list;
     }
 
