@@ -43,8 +43,8 @@
             </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" #name (keyup.enter)="reset(name.value)">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="button" (click)="reset(name.value)">Search</button>
         </form>
     </div>
 </nav>
@@ -87,7 +87,7 @@
                             <p>
                                 <button type="button" class="btn btn-outline-dark" (click)="e.val = !e.val"
                                         [attr.aria-expanded]="!e.val" aria-controls="example">
-                                  <small>Opinion</small>
+                                  <small>Opinions</small>
                                 </button>
                               </p>
                         </div>

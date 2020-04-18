@@ -7,13 +7,11 @@ import { NewsService } from './news.service';
   styleUrls: ['./app.component.css']
 })
 
-
 export class AppComponent implements OnInit{
   title = 'paper-web';
   news = [];
   type = 'general';
   id = 1;
-  size = 0;
   finished = false;
   isCollapsed = true;
 
@@ -34,8 +32,7 @@ export class AppComponent implements OnInit{
       data=> {
         let tmp = []; tmp = tmp.concat(data);
         for (let e of tmp) this.news.push({key:e, val:true});
-        this.finished = this.news.length == this.size ? true : false;
-        this.size = this.news.length; 
+        this.finished = tmp.length == 0 ? true : false;
       });
   }
 
@@ -43,7 +40,6 @@ export class AppComponent implements OnInit{
     this.news = [];
     this.type = type;
     this.id = 1;
-    this.size = 0;
     this.finished = false;
     this.getNews();
   }

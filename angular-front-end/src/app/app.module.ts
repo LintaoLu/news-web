@@ -7,6 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NewsService } from './news.service';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     AppRoutingModule,
     HttpClientModule,
     InfiniteScrollModule,
-    NgbModule
+    NgbModule,
+    FormsModule
   ],
   providers: [NewsService],
   bootstrap: [AppComponent]
