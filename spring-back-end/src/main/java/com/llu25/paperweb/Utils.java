@@ -11,14 +11,19 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class Utils {
 
     public static int newsPerList = 3;
-    public static int LRUSize = 20;
+    public static int LRUSize = 100, FIFOSize = 20;
     public static final String news_api_key = "ce03d2af6ccc4b5e9fc475540b46f170";
+    public static final Set<String> basicNewsTypes;
+
+    static {
+        String[] types = {"general", "science", "business", "sports", "health", "technology", "entertainment" };
+        basicNewsTypes = new HashSet<>(Arrays.asList(types));
+    }
 
     public static String doGet(String request) throws IOException {
         String ans = null;
@@ -38,16 +43,15 @@ public class Utils {
         return ans;
     }
 
-    public static LRU<List<News>> parseNewsJson(String json) throws IOException {
-        LRU<List<News>> lru = new LRU<>(LRUSize);
-        if (json == null || json.equals("")) return lru;
+    public static Map<Integer, List<News>> parseNewsJson(String json) {
+        Map<Integer, List<News>> map = new LinkedHashMap<>();
+        if (json == null || json.equals("")) return map;
         List<News> list = new LinkedList<>();
         int counter = 0;
-        JsonArray jsonArray = new JsonParser().parse(json).getAsJsonObject().
-                get("articles").getAsJsonArray();
+        JsonArray jsonArray = new JsonParser().parse(json).getAsJsonObject().get("articles").getAsJsonArray();
         for (JsonElement news : jsonArray) {
-            if (counter % Utils.newsPerList == 0) {
-                lru.set(counter / Utils.newsPerList, list);
+            if (counter != 0 && counter % Utils.newsPerList == 0) {
+                map.put(counter / Utils.newsPerList, list);
                 list = new LinkedList<>();
             }
             JsonObject newsObj = news.getAsJsonObject();
@@ -63,22 +67,8 @@ public class Utils {
             list.add(new News(counter, source, author, title, description, url, urlToImage, publishedAt));
             counter++;
         }
-        return lru;
-    }
-
-    public static String getJson(NewsType type) throws IOException {
-        // TODO change it to doGet(request)
-        switch (type) {
-            case GENERAL: return doGet("https://newsapi.org/v2/everything?q=" + "general" + "&language=en&sortBy=publishedAt&apiKey=" + Utils.news_api_key);
-            case SCIENCE: return doGet("https://newsapi.org/v2/everything?q=" + "science" + "&language=en&sortBy=publishedAt&apiKey=" + Utils.news_api_key);
-            case BUSINESS: return doGet("https://newsapi.org/v2/everything?q=" + "business" + "&language=en&sortBy=publishedAt&apiKey=" + Utils.news_api_key);
-            case SPORTS: return doGet("https://newsapi.org/v2/everything?q=" + "sports" + "&language=en&sortBy=publishedAt&apiKey=" + Utils.news_api_key);
-            case HEALTH: return doGet("https://newsapi.org/v2/everything?q=" + "health" + "&language=en&sortBy=publishedAt&sortBy=publishedAt&apiKey=" + Utils.news_api_key);
-            case TECHNOLOGY: return doGet("https://newsapi.org/v2/everything?q=" + "technology" + "&language=en&sortBy=publishedAt&apiKey=" + Utils.news_api_key);
-            case ENTERTAINMENT: return doGet("https://newsapi.org/v2/everything?q=" + "entertainment" + "&language=en&sortBy=publishedAt&apiKey=" + Utils.news_api_key);
-            default: break;
-        }
-        return null;
+        if (list.size() != 0) map.put(counter / Utils.newsPerList + 1, list);
+        return map;
     }
 
     public static String getJson(String keyword) throws IOException {

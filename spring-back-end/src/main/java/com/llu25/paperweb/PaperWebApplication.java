@@ -5,83 +5,44 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 @CrossOrigin(origins = "*")
 @RestController
 @SpringBootApplication
 public class PaperWebApplication {
 
-    private Map<NewsType, LRU<List<News>>> news;
-    private Map<String, Pair<String, LRU<List<News>>>> searchHistory;
+    private Map<String, FIFO<List<News>>> news;
+    private LRU<String, Map<Integer, List<News>>> searchHistory;
 
     public PaperWebApplication() {
-        news = new HashMap<>();
-        for (NewsType type : NewsType.values()) news.put(type, new LRU<>(Utils.LRUSize));
-        searchHistory = new HashMap<>();
+        news = new ConcurrentHashMap<>();
+        for (String type : Utils.basicNewsTypes) news.put(type, new FIFO<>(Utils.FIFOSize));
+        searchHistory = new LRU<>(Utils.LRUSize);
         Timer timer = new Timer();
-        timer.schedule(new UpdateNewsService(this), 0, 10000000); //1000 Min
+        timer.schedule(new UpdateNewsService(this), 0, 20000000); //500 Min
     }
 
     @GetMapping("/getNews")
     @ResponseBody
-    public List<News> getNews(@RequestParam int id, @RequestParam String ip, @RequestParam String keyword) throws IOException {
-        System.out.println("accept request " + id + " " + ip + " " + keyword);
+    public List<News> getNews(@RequestParam int id, @RequestParam String keyword) throws IOException {
+        System.out.println("accept request " + id + " " + keyword);
         List<News> list = new LinkedList<>();
         if (keyword.equals("")) return list;
-
-        switch (keyword) {
-            case "general":
-                if (news.containsKey(NewsType.GENERAL)) {
-                    list = news.get(NewsType.GENERAL).get(id);
-                }
-                break;
-            case "business":
-                if (news.containsKey(NewsType.BUSINESS)) {
-                    list = news.get(NewsType.BUSINESS).get(id);
-                }
-                break;
-            case "entertainment":
-                if (news.containsKey(NewsType.ENTERTAINMENT)) {
-                    list = news.get(NewsType.ENTERTAINMENT).get(id);
-                }
-                break;
-            case "health":
-                if (news.containsKey(NewsType.HEALTH)) {
-                    list = news.get(NewsType.HEALTH).get(id);
-                }
-                break;
-            case "science":
-                if (news.containsKey(NewsType.SCIENCE)) {
-                    list = news.get(NewsType.SCIENCE).get(id);
-                }
-                break;
-            case "sports":
-                if (news.containsKey(NewsType.SPORTS)) {
-                    list = news.get(NewsType.SPORTS).get(id);
-                }
-                break;
-            case "technology":
-                if (news.containsKey(NewsType.TECHNOLOGY)) {
-                    list = news.get(NewsType.TECHNOLOGY).get(id);
-                }
-                break;
-            default:
-                if (!searchHistory.containsKey(ip) || !searchHistory.get(ip).getKey().equals(keyword)) {
-                    LRU<List<News>> news = Utils.parseNewsJson(Utils.getJson(keyword));
-                    searchHistory.put(ip, new Pair<>(keyword, news));
-                }
-                list = searchHistory.get(ip).getValue().get(id);
+        if (Utils.basicNewsTypes.contains(keyword)) list = news.get(keyword).get(id);
+        else {
+            if (!searchHistory.containsKey(keyword)) {
+                Map<Integer, List<News>> thisNews = Utils.parseNewsJson(Utils.getJson(keyword));
+                searchHistory.set(keyword, thisNews);
+            }
+            list = searchHistory.get(keyword).get(id);
         }
         return list == null ? new LinkedList<>() : list;
     }
 
-    public Map<NewsType, LRU<List<News>>> getNews() {
-        return news;
-    }
+    public Map<String, FIFO<List<News>>> getNews() { return news; }
 
-    public Map<String, Pair<String, LRU<List<News>>>> getSearchHistory() {
-        return searchHistory;
-    }
+    public LRU<String, Map<Integer, List<News>>> getSearchHistory() { return searchHistory; }
 
     public static void main(String[] args) {
         SpringApplication.run(PaperWebApplication.class, args);

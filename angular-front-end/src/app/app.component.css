@@ -89,3 +89,9 @@ body {
   animation-name: moveLeft;
   animation-duration: 1s;
 }
+
+.fill { 
+  min-height: 100%;
+  height: 100%;
+}
+
