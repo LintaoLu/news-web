@@ -65,7 +65,7 @@ public class Utils {
             String title = newsObj.get("title").isJsonNull() ? "No title" : newsObj.get("title").getAsString();
             String description = newsObj.get("description").isJsonNull() ? "" : newsObj.get("description").getAsString();
             String url = newsObj.get("url").isJsonNull() ? "#" : newsObj.get("url").getAsString();
-            String urlToImage = newsObj.get("urlToImage").isJsonNull() ? "http://localhost:4200/assets/images/img_not_find.jpg" :
+            String urlToImage = newsObj.get("urlToImage").isJsonNull() ? "http://lintaolu.com/assets/images/img_not_find.jpg" :
                     newsObj.get("urlToImage").getAsString();
             String publishedAt = newsObj.get("publishedAt").isJsonNull() ? "" : newsObj.get("publishedAt").getAsString();
             list.add(new News(counter, source, author, title, description, url, urlToImage, publishedAt));
