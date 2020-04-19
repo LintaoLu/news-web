@@ -24,6 +24,7 @@ public class PaperWebApplication {
     @GetMapping("/getNews")
     @ResponseBody
     public List<News> getNews(@RequestParam int id, @RequestParam String ip, @RequestParam String keyword) throws IOException {
+        System.out.println("accept request " + id + " " + ip + " " + keyword);
         List<News> list = new LinkedList<>();
         if (keyword.equals("")) return list;
 
