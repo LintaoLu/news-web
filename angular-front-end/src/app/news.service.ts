@@ -11,6 +11,6 @@ export class NewsService {
   ip = window.location.origin;
 
   public getNews(type:string, id:number) {
-    return this.http.get('http://localhost:8080/getNews?id=' + id + '&ip=' + this.ip + '&keyword=' + type);
+    return this.http.get('http://161.35.49.253:8080/getNews?id=' + id + '&ip=' + this.ip + '&keyword=' + type);
   }
 }
