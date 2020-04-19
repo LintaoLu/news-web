@@ -16,6 +16,7 @@ public class PaperWebApplication {
 
     public PaperWebApplication() {
         news = new HashMap<>();
+        for (NewsType type : NewsType.values()) news.put(type, new LRU<>(Utils.LRUSize));
         searchHistory = new HashMap<>();
         Timer timer = new Timer();
         timer.schedule(new UpdateNewsService(this), 0, 10000000); //1000 Min
