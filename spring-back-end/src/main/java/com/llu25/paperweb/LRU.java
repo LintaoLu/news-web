@@ -3,7 +3,7 @@ package com.llu25.paperweb;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-// item is a list, each list has at most 5 news
+// item is a list, each list has at most Utils.newsPerList news
 public class LRU<Item> {
 
     private LinkedHashMap<Integer, Item> map;
@@ -22,11 +22,4 @@ public class LRU<Item> {
 
     public void set(int key, Item value) { map.put(key, value); }
 
-    @Override
-    public String toString() {
-        return "LRU{" +
-                "map=" + map +
-                ", CAPACITY=" + CAPACITY +
-                '}';
-    }
 }
