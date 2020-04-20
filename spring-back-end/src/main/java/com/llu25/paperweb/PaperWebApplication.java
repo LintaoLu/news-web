@@ -34,6 +34,7 @@ public class PaperWebApplication {
         for(String str : arr) sb.append(str).append('&');
         sb.setLength(sb.length()-1);
         keyword = sb.toString();
+        System.out.println(keyword);
         if (Utils.basicNewsTypes.contains(keyword)) list = news.get(keyword).get(id);
         else {
             if (!searchHistory.containsKey(keyword)) {

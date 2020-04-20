@@ -9,14 +9,15 @@ import { NewsService } from '../news.service';
 export class HomeComponent implements OnInit {
   title = 'paper-web';
   news = [];
-  type = 'general';
+  type: string;
   id = 1;
   finished = false;
-  isCollapsed = true;
 
   constructor(private newsService: NewsService) { }
 
   ngOnInit() {
+    this.type = localStorage.getItem('type');
+    if (this.type === null)  this.type = 'general';
     this.getNews();
   }
 
@@ -32,6 +33,7 @@ export class HomeComponent implements OnInit {
         let tmp = []; tmp = tmp.concat(data);
         for (let e of tmp) this.news.push({key:e, val:true});
         this.finished = tmp.length == 0 ? true : false;
+        localStorage.setItem('type', this.type);
       });
   }
 
@@ -46,5 +48,6 @@ export class HomeComponent implements OnInit {
   public backToTop() {
     window.scroll(0, 0);
   }
+
 
 }
