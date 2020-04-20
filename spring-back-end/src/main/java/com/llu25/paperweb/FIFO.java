@@ -2,45 +2,51 @@ package com.llu25.paperweb;
 
 import java.util.LinkedList;
 import java.util.Map;
-import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class FIFO<Item> {
 
     private Map<Integer, Item> map;
     private final int CAPACITY;
-    private Queue<Item> queue;
-    private int offset, curr;
+    private LinkedList<Item> list;
 
     public FIFO(int capacity) {
         this.CAPACITY = capacity;
         map = new ConcurrentHashMap<>();
-        queue = new LinkedList<>();
+        list = new LinkedList<>();
     }
 
-    public void set(Integer id, Item item) {
-        if (map.containsKey(getId(id))) return;
-        if (queue.size() == CAPACITY) {
-            queue.poll();
-            offset++;
+    public void append(Map<Integer, Item> news) {
+        LinkedList<Item> temp = new LinkedList<>();
+        for (Map.Entry<Integer, Item> entry : news.entrySet()) {
+            map.put(entry.getKey(), entry.getValue());
+            temp.add(entry.getValue());
         }
-        map.put(++curr, item);
-        queue.offer(item);
+        int offset = temp.size() + 1;
+        for (int i = 0; i < list.size(); i++) {
+            int currId = i + offset;
+            if (currId > CAPACITY) break;
+            Item item = list.get(i);
+            map.put(currId, item);
+            temp.add(item);
+        }
+        list = temp;
     }
 
     public Item get(int id) {
-        return map.getOrDefault(getId(id), null);
+        return map.getOrDefault(id, null);
     }
 
-    private int getId(int id) { return id + offset; }
+    public Map<Integer, Item> getMap() {
+        return map;
+    }
 
     @Override
     public String toString() {
         return "FIFO{" +
                 "map=" + map +
                 ", CAPACITY=" + CAPACITY +
-                ", queue=" + queue +
-                ", offset=" + offset +
+                ", list=" + list +
                 '}';
     }
 }

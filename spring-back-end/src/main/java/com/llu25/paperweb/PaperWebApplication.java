@@ -20,7 +20,7 @@ public class PaperWebApplication {
         for (String type : Utils.basicNewsTypes) news.put(type, new FIFO<>(Utils.FIFOSize));
         searchHistory = new LRU<>(Utils.LRUSize);
         Timer timer = new Timer();
-        timer.schedule(new UpdateNewsService(this), 0, 20000000); //500 Min
+        timer.schedule(new UpdateNewsService(this), 0, 10800000); //180 Min
     }
 
     @GetMapping("/getNews")

@@ -23,9 +23,7 @@ public class UpdateNewsService extends TimerTask {
             }
             if (news != null) {
                 FIFO<List<News>> fifo = paperWebApplication.getNews().get(type);
-                for (Map.Entry<Integer, List<News>> entry : news.entrySet()) {
-                    fifo.set(entry.getKey(), entry.getValue());
-                }
+                fifo.append(news);
             }
         }
     }
