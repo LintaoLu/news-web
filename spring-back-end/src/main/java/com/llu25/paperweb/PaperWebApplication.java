@@ -29,6 +29,11 @@ public class PaperWebApplication {
         System.out.println("accept request " + id + " " + keyword);
         List<News> list = new LinkedList<>();
         if (keyword.equals("")) return list;
+        String[] arr = keyword.split(" ");
+        StringBuilder sb = new StringBuilder();
+        for(String str : arr) sb.append(str).append('&');
+        sb.setLength(sb.length()-1);
+        keyword = sb.toString();
         if (Utils.basicNewsTypes.contains(keyword)) list = news.get(keyword).get(id);
         else {
             if (!searchHistory.containsKey(keyword)) {
