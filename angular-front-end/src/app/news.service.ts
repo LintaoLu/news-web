@@ -7,8 +7,8 @@ import { HttpClient } from '@angular/common/http';
 export class NewsService {
   
   constructor(private http: HttpClient) { }
-s
+
   public getNews(type:string, id:number) {
-    return this.http.get('https://161.35.49.253:8443/getNews?id=' + id + '&keyword=' + type);
+    return this.http.get('http://161.35.49.253:8080/getNews?id=' + id + '&keyword=' + type);
   }
 }
