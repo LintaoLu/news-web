@@ -9,6 +9,6 @@ export class NewsService {
   constructor(private http: HttpClient) { }
 
   public getNews(type:string, id:number) {
-    return this.http.get('http://157.245.242.4:8080/getNews?id=' + id + '&keyword=' + type);
+    return this.http.get('https://lintaolu.com/getNews?id=' + id + '&keyword=' + type);
   }
 }
