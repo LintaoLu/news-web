@@ -1,19 +1,21 @@
 package com.llu25.paperweb.services;
 
+import org.apache.commons.lang3.SystemUtils;
 import java.io.*;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 public class KeyWordExtractionService {
 
-    public static void main(String[] args) throws IOException {
-        List<String> list = KeyWordExtractionService.getKeyWords("The Mysterious Case Of Customs And Border Protection's Unmarked S-76 Helicopters");
-        System.out.println(list);
-    }
+    public List<String> getKeyWordsFromLocal(String input) throws IOException {
+        String directory = null;
+        if (SystemUtils.IS_OS_WINDOWS)
+             directory = new File("./").getCanonicalPath() + "\\src\\main\\scripts\\";
+        else if (SystemUtils.IS_OS_LINUX)
+            directory = new File("./").getCanonicalPath() + "/src/main/scripts/";
 
-    public static List<String> getKeyWords(String input) throws IOException {
-        String directory = new File("./").getCanonicalPath() + "\\src\\main\\scripts\\";
+        if (directory == null || input == null || input.length() == 0) return new LinkedList<>();
 
         Runtime rt = Runtime.getRuntime();
         String[] commands = {"python", directory + "KeyWordExtraction.py", input};
@@ -36,8 +38,23 @@ public class KeyWordExtractionService {
                 System.out.println(line);
             }
         }
+        proc.destroy();
 
         String[] keyWords = sb.toString().split(",");
-        return new LinkedList<>(Arrays.asList(keyWords));
+        List<String> res = new ArrayList<>();
+        for (String str : keyWords) {
+            if (!isValidKeyWord(str)) continue;
+            res.add(str);
+        }
+        return res;
+    }
+
+    private boolean isValidKeyWord(String keyword) {
+        if (keyword == null || keyword.length() == 0) return false;
+        for (int i = 0; i < keyword.length(); i++) {
+            char c = keyword.charAt(i);
+            if (!Character.isAlphabetic(c) && c != ' ') return false;
+        }
+        return true;
     }
 }

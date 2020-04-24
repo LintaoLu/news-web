@@ -4,6 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.llu25.paperweb.services.KeyWordExtractionService;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -15,19 +16,20 @@ import java.util.*;
 
 public class Utils {
 
-    public static int newsPerList = 3;
+    public static int newsPerList = 3, keyWordsPerNews = 3;
     public static int LRUSize = 100, FIFOSize = 20;
     public static final String news_api_key;
     public static final Set<String> basicNewsTypes;
+    public static long updatePeriod = 10800000; //180 Min
 
     static {
         String[] types = {"general", "science", "business", "sports", "health", "technology", "entertainment" };
         basicNewsTypes = new HashSet<>(Arrays.asList(types));
-        news_api_key = readAPIKey();
+        news_api_key = readAPIKey("news_api_key.txt");
     }
 
     public static String doGet(String request) throws IOException {
-        String ans = null;
+        String ans;
         CloseableHttpClient httpclient = HttpClients.createDefault();
         HttpGet httpGet = new HttpGet(request);
         CloseableHttpResponse response = httpclient.execute(httpGet);
@@ -44,17 +46,19 @@ public class Utils {
         return ans;
     }
 
-    public static Map<Integer, List<News>> parseNewsJson(String json) {
+    public static Map<Integer, List<News>> parseNewsJson(KeyWordExtractionService keyWordExtractionService,
+                                                         boolean enableService, String json) throws IOException {
         Map<Integer, List<News>> map = new LinkedHashMap<>();
         if (json == null || json.equals("")) return map;
         List<News> list = new LinkedList<>();
         int counter = 0;
         JsonArray jsonArray = new JsonParser().parse(json).getAsJsonObject().get("articles").getAsJsonArray();
         for (JsonElement news : jsonArray) {
-            if (counter != 0 && counter % Utils.newsPerList == 0) {
-                map.put(counter / Utils.newsPerList, list);
+            if (counter != 0 && counter % newsPerList == 0) {
+                map.put(counter / newsPerList, list);
                 list = new LinkedList<>();
             }
+
             JsonObject newsObj = news.getAsJsonObject();
             String source = newsObj.getAsJsonObject("source").get("name").isJsonNull() ? "" :
                     newsObj.getAsJsonObject("source").get("name").getAsString();
@@ -62,23 +66,36 @@ public class Utils {
             String title = newsObj.get("title").isJsonNull() ? "No title" : newsObj.get("title").getAsString();
             String description = newsObj.get("description").isJsonNull() ? "" : newsObj.get("description").getAsString();
             String url = newsObj.get("url").isJsonNull() ? "#" : newsObj.get("url").getAsString();
-            String urlToImage = newsObj.get("urlToImage").isJsonNull() ? "http://lintaolu.com/assets/images/img_not_find.jpg" :
+            String urlToImage = newsObj.get("urlToImage").isJsonNull() ? "https://lintaolu.com/assets/images/img_not_find.jpg" :
                     newsObj.get("urlToImage").getAsString();
             String publishedAt = newsObj.get("publishedAt").isJsonNull() ? "" : newsObj.get("publishedAt").getAsString();
-            list.add(new News(counter, source, author, title, description, url, urlToImage, publishedAt));
+
+            List<String> keyWords = new ArrayList<>();
+            if (enableService) {
+                if (!title.equals("No title")) keyWords = keyWordExtractionService.getKeyWordsFromLocal(title);
+                else if (!description.equals("")) keyWords = keyWordExtractionService.getKeyWordsFromLocal(description);
+                keyWords = keyWords.subList(0, Math.min(keyWords.size(), keyWordsPerNews));
+                System.out.println(keyWords);
+            }
+
+            list.add(new News(counter, source, author, title, description, url, urlToImage, publishedAt, keyWords));
             counter++;
         }
         if (list.size() != 0) map.put(counter / Utils.newsPerList + 1, list);
         return map;
     }
 
-    public static String getJson(String keyword) throws IOException {
-        return doGet("https://newsapi.org/v2/everything?q=" + keyword + "&language=en&sortBy=publishedAt&apiKey=" + Utils.news_api_key);
+    public static String getJson(RequestType type, String keyword) throws IOException {
+        if (type == RequestType.NEWS) {
+            return doGet("https://newsapi.org/v2/everything?q=" + keyword +
+                    "&language=en&sortBy=publishedAt&apiKey=" + Utils.news_api_key);
+        }
+        return null;
     }
 
-    private static String readAPIKey() {
+    private static String readAPIKey(String path) {
         StringBuilder sb = new StringBuilder();
-        try (BufferedReader reader = new BufferedReader(new FileReader("news_api_key.txt"))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
             String line = null;
             while ((line = reader.readLine()) != null) {
                 sb.append(line);

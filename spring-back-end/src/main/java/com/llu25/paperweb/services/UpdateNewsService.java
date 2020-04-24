@@ -1,4 +1,5 @@
 package com.llu25.paperweb.services;
+import com.llu25.paperweb.RequestType;
 import com.llu25.paperweb.datastructures.FIFO;
 import com.llu25.paperweb.News;
 import com.llu25.paperweb.PaperWebApplication;
@@ -20,8 +21,8 @@ public class UpdateNewsService extends TimerTask {
             String json;
             Map<Integer, List<News>> news = null;
             try {
-                json = Utils.getJson(type);
-                news = Utils.parseNewsJson(json);
+                json = Utils.getJson(RequestType.NEWS, type);
+                news = Utils.parseNewsJson(paperWebApplication.keyWordExtractionService, true, json);
             } catch (IOException e) {
                 e.printStackTrace();
             }

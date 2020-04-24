@@ -2,6 +2,7 @@ package com.llu25.paperweb;
 
 import com.llu25.paperweb.datastructures.FIFO;
 import com.llu25.paperweb.datastructures.LRU;
+import com.llu25.paperweb.services.KeyWordExtractionService;
 import com.llu25.paperweb.services.UpdateNewsService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,13 +18,17 @@ public class PaperWebApplication {
 
     private Map<String, FIFO<List<News>>> news;
     private LRU<String, Map<Integer, List<News>>> searchHistory;
+    public final UpdateNewsService updateNewsService;
+    public final KeyWordExtractionService keyWordExtractionService;
 
     public PaperWebApplication() {
         news = new ConcurrentHashMap<>();
         for (String type : Utils.basicNewsTypes) news.put(type, new FIFO<>(Utils.FIFOSize));
         searchHistory = new LRU<>(Utils.LRUSize);
+        updateNewsService = new UpdateNewsService(this);
+        keyWordExtractionService = new KeyWordExtractionService();
         Timer timer = new Timer();
-        timer.schedule(new UpdateNewsService(this), 0, 10800000); //180 Min
+        timer.schedule(updateNewsService, 0, Utils.updatePeriod);
     }
 
     @GetMapping("/getNews")
@@ -41,7 +46,8 @@ public class PaperWebApplication {
         if (Utils.basicNewsTypes.contains(keyword)) list = news.get(keyword).get(id);
         else {
             if (!searchHistory.containsKey(keyword)) {
-                Map<Integer, List<News>> thisNews = Utils.parseNewsJson(Utils.getJson(keyword));
+                Map<Integer, List<News>> thisNews = Utils.parseNewsJson(keyWordExtractionService,
+                        false, Utils.getJson(RequestType.NEWS, keyword));
                 searchHistory.set(keyword, thisNews);
             }
             list = searchHistory.get(keyword).get(id);

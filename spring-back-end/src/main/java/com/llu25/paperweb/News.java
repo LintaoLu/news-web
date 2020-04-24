@@ -1,12 +1,16 @@
 package com.llu25.paperweb;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class News {
 
     private String source, author, title, description, url, urlToImage, publishedAt;
     private int id;
+    private List<String> keyWords;
 
     public News(int id, String source, String author, String title, String description,
-                String url, String urlToImage, String publishedAt) {
+                String url, String urlToImage, String publishedAt, List<String> keyWords) {
         this.id = id;
         this.source = source;
         this.author = author;
@@ -15,6 +19,8 @@ public class News {
         this.url = url;
         this.urlToImage = urlToImage;
         this.publishedAt = publishedAt;
+        this.keyWords = new ArrayList<>();
+        this.keyWords = keyWords;
     }
 
     public int getId() {
