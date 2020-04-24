@@ -47,7 +47,7 @@ public class PaperWebApplication {
         else {
             if (!searchHistory.containsKey(keyword)) {
                 Map<Integer, List<News>> thisNews = Utils.parseNewsJson(keyWordExtractionService,
-                        false, Utils.getJson(RequestType.NEWS, keyword));
+                        false, Utils.getNewsJson(keyword));
                 searchHistory.set(keyword, thisNews);
             }
             list = searchHistory.get(keyword).get(id);

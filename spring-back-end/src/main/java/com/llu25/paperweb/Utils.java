@@ -19,13 +19,15 @@ public class Utils {
     public static int newsPerList = 3, keyWordsPerNews = 3;
     public static int LRUSize = 100, FIFOSize = 20;
     public static final String news_api_key;
+    public static final List<String> twitter_api_keys;
     public static final Set<String> basicNewsTypes;
     public static long updatePeriod = 10800000; //180 Min
 
     static {
         String[] types = {"general", "science", "business", "sports", "health", "technology", "entertainment" };
         basicNewsTypes = new HashSet<>(Arrays.asList(types));
-        news_api_key = readAPIKey("news_api_key.txt");
+        news_api_key = readAPIKey("news_api_key.txt").get(0);
+        twitter_api_keys = readAPIKey("twitter_api_key.txt");
     }
 
     public static String doGet(String request) throws IOException {
@@ -85,25 +87,22 @@ public class Utils {
         return map;
     }
 
-    public static String getJson(RequestType type, String keyword) throws IOException {
-        if (type == RequestType.NEWS) {
-            return doGet("https://newsapi.org/v2/everything?q=" + keyword +
-                    "&language=en&sortBy=publishedAt&apiKey=" + Utils.news_api_key);
-        }
-        return null;
+    public static String getNewsJson(String keyword) throws IOException {
+        return doGet("https://newsapi.org/v2/everything?q=" + keyword +
+                "&language=en&sortBy=publishedAt&apiKey=" + Utils.news_api_key);
     }
 
-    private static String readAPIKey(String path) {
-        StringBuilder sb = new StringBuilder();
+    private static List<String> readAPIKey(String path) {
+        List<String> list = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
-            String line = null;
+            String line;
             while ((line = reader.readLine()) != null) {
-                sb.append(line);
+                list.add(line);
             }
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
-        return sb.toString();
+        return list;
     }
 
     public static void generateText(String log, String path) throws IOException {
