@@ -89,8 +89,8 @@ public class Utils {
 
     public static String getNewsJson(String keyword) throws IOException {
         if (basicNewsTypes.contains(keyword)) {
-            return doGet("http://newsapi.org/v2/top-headlines?category=" +
-                    keyword + "&language=en&apiKey=" + news_api_key);
+            return doGet("http://newsapi.org/v2/top-headlines?country=us&category=" +
+                    keyword + "&apiKey=" + news_api_key);
         }
         return doGet("https://newsapi.org/v2/everything?q=" + keyword +
                 "&language=en&sortBy=publishedAt&apiKey=" + news_api_key);
