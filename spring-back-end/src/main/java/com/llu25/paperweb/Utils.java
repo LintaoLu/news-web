@@ -73,12 +73,12 @@ public class Utils {
             String publishedAt = newsObj.get("publishedAt").isJsonNull() ? "" : newsObj.get("publishedAt").getAsString();
 
             List<String> keyWords = new ArrayList<>();
-            if (enableService) {
-                if (!title.equals("No title")) keyWords = keyWordExtractionService.getKeyWordsFromLocal(title);
-                else if (!description.equals("")) keyWords = keyWordExtractionService.getKeyWordsFromLocal(description);
-                keyWords = keyWords.subList(0, Math.min(keyWords.size(), keyWordsPerNews));
-                System.out.println(keyWords);
-            }
+//            if (enableService) {
+//                if (!title.equals("No title")) keyWords = keyWordExtractionService.getKeyWordsFromLocal(title);
+//                else if (!description.equals("")) keyWords = keyWordExtractionService.getKeyWordsFromLocal(description);
+//                keyWords = keyWords.subList(0, Math.min(keyWords.size(), keyWordsPerNews));
+//                System.out.println(keyWords);
+//            }
 
             list.add(new News(counter, source, author, title, description, url, urlToImage, publishedAt, keyWords));
             counter++;
@@ -88,8 +88,12 @@ public class Utils {
     }
 
     public static String getNewsJson(String keyword) throws IOException {
+        if (basicNewsTypes.contains(keyword)) {
+            return doGet("http://newsapi.org/v2/top-headlines?category=" +
+                    keyword + "&language=en&apiKey=" + news_api_key);
+        }
         return doGet("https://newsapi.org/v2/everything?q=" + keyword +
-                "&language=en&sortBy=publishedAt&apiKey=" + Utils.news_api_key);
+                "&language=en&sortBy=publishedAt&apiKey=" + news_api_key);
     }
 
     private static List<String> readAPIKey(String path) {
