@@ -10,10 +10,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 public class Utils {
@@ -90,5 +87,17 @@ public class Utils {
             System.out.println(e.getMessage());
         }
         return sb.toString();
+    }
+
+    public static void generateText(String log, String path) throws IOException {
+        File logFile = new File(path);
+        logFile.createNewFile(); // if file already exists will do nothing
+        try {
+            BufferedWriter writer = new BufferedWriter(
+                    new FileWriter(path, false)  //Set true for append mode
+            );
+            writer.write(log);
+            writer.close();
+        } catch (Exception e) { e.printStackTrace(); }
     }
 }

@@ -1,5 +1,8 @@
 package com.llu25.paperweb;
 
+import com.llu25.paperweb.datastructures.FIFO;
+import com.llu25.paperweb.datastructures.LRU;
+import com.llu25.paperweb.services.UpdateNewsService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.*;

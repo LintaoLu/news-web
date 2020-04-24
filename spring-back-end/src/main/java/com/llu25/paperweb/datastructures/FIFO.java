@@ -1,4 +1,4 @@
-package com.llu25.paperweb;
+package com.llu25.paperweb.datastructures;
 
 import java.util.LinkedList;
 import java.util.Map;

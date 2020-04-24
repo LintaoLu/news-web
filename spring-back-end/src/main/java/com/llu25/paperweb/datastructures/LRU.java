@@ -1,4 +1,4 @@
-package com.llu25.paperweb;
+package com.llu25.paperweb.datastructures;
 
 import java.util.Collections;
 import java.util.LinkedHashMap;
