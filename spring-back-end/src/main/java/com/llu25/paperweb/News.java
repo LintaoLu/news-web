@@ -8,9 +8,10 @@ public class News {
     private String source, author, title, description, url, urlToImage, publishedAt;
     private int id;
     private List<String> keyWords;
+    private List<String> tweets;
 
-    public News(int id, String source, String author, String title, String description,
-                String url, String urlToImage, String publishedAt, List<String> keyWords) {
+    public News(int id, String source, String author, String title, String description, String url,
+                String urlToImage, String publishedAt, List<String> keyWords, List<String> tweets) {
         this.id = id;
         this.source = source;
         this.author = author;
@@ -21,6 +22,7 @@ public class News {
         this.publishedAt = publishedAt;
         this.keyWords = new ArrayList<>();
         this.keyWords = keyWords;
+        this.tweets = tweets;
     }
 
     public int getId() {
@@ -53,6 +55,22 @@ public class News {
 
     public String getPublishedAt() {
         return publishedAt;
+    }
+
+    public List<String> getKeyWords() {
+        return keyWords;
+    }
+
+    public List<String> getTweets() {
+        return tweets;
+    }
+
+    public void setKeyWords(List<String> keyWords) {
+        this.keyWords = keyWords;
+    }
+
+    public void setTweets(List<String> tweets) {
+        this.tweets = tweets;
     }
 
     @Override

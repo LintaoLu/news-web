@@ -4,7 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.llu25.paperweb.services.KeyWordExtractionService;
+import com.llu25.paperweb.datastructures.Pair;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -16,9 +16,9 @@ import java.util.*;
 
 public class Utils {
 
-    public static int newsPerList = 3, keyWordsPerNews = 3;
+    public static int newsPerList = 3, keyWordsPerNews = 3, keywordShortcut = 3;
     public static int LRUSize = 100, FIFOSize = 20;
-    public static final String news_api_key;
+    public static final String news_api_key, monkey_learn_api_key;
     public static final List<String> twitter_api_keys;
     public static final Set<String> basicNewsTypes;
     public static long updatePeriod = 10800000; //180 Min
@@ -27,6 +27,7 @@ public class Utils {
         String[] types = {"general", "science", "business", "sports", "health", "technology", "entertainment" };
         basicNewsTypes = new HashSet<>(Arrays.asList(types));
         news_api_key = readAPIKey("news_api_key.txt").get(0);
+        monkey_learn_api_key = readAPIKey("monkey_learn_api_key.txt").get(0);
         twitter_api_keys = readAPIKey("twitter_api_key.txt");
     }
 
@@ -48,9 +49,9 @@ public class Utils {
         return ans;
     }
 
-    public static Map<Integer, List<News>> parseNewsJson(KeyWordExtractionService keyWordExtractionService,
-                                                         boolean enableService, String json) throws IOException {
+    public static Map<Integer, List<News>> parseNewsJson(String json) {
         Map<Integer, List<News>> map = new LinkedHashMap<>();
+        List<String> text = new LinkedList<>();
         if (json == null || json.equals("")) return map;
         List<News> list = new LinkedList<>();
         int counter = 0;
@@ -72,18 +73,18 @@ public class Utils {
                     newsObj.get("urlToImage").getAsString();
             String publishedAt = newsObj.get("publishedAt").isJsonNull() ? "" : newsObj.get("publishedAt").getAsString();
 
-            List<String> keyWords = new ArrayList<>();
-//            if (enableService) {
-//                if (!title.equals("No title")) keyWords = keyWordExtractionService.getKeyWordsFromLocal(title);
-//                else if (!description.equals("")) keyWords = keyWordExtractionService.getKeyWordsFromLocal(description);
-//                keyWords = keyWords.subList(0, Math.min(keyWords.size(), keyWordsPerNews));
-//                System.out.println(keyWords);
-//            }
+            // drop invalid news
+            if (title.equals("No title") && description.equals("")) continue;
 
-            list.add(new News(counter, source, author, title, description, url, urlToImage, publishedAt, keyWords));
+            if (!title.equals("No title")) text .add(title);
+            else text .add(description);
+
+            list.add(new News(counter, source, author, title, description, url, urlToImage, publishedAt, new ArrayList<>(), new ArrayList<>()));
             counter++;
         }
+        // put the remaining news to map
         if (list.size() != 0) map.put(counter / Utils.newsPerList + 1, list);
+
         return map;
     }
 
@@ -119,5 +120,21 @@ public class Utils {
             writer.write(log);
             writer.close();
         } catch (Exception e) { e.printStackTrace(); }
+    }
+
+    public static List<Pair<String, String>> parseSourceJason() throws IOException {
+        String request = "https://newsapi.org/v2/sources?language=en&apiKey=" + news_api_key;
+        String json = doGet(request);
+        List<Pair<String, String>> list = new ArrayList<>();
+        if (json == null || json.length() == 0) return list;
+        JsonArray jsonArray = new JsonParser().parse(json).getAsJsonObject().get("sources").getAsJsonArray();
+        for (JsonElement source : jsonArray) {
+            JsonObject sourceObj = source.getAsJsonObject();
+            String sourceId = sourceObj.get("id").isJsonNull() ? null : sourceObj.get("id").getAsString();
+            String sourceName = sourceObj.get("name").isJsonNull() ? null : sourceObj.get("name").getAsString();
+            if (sourceId == null || sourceName == null) continue;
+            list.add(new Pair<>(sourceId, sourceName));
+        }
+        return list;
     }
 }

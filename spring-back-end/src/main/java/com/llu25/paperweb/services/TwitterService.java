@@ -3,8 +3,7 @@ package com.llu25.paperweb.services;
 import com.llu25.paperweb.Utils;
 import twitter4j.*;
 import twitter4j.conf.ConfigurationBuilder;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.*;
 
 public class TwitterService {
 
@@ -20,19 +19,43 @@ public class TwitterService {
         twitter = new TwitterFactory(cb.build()).getInstance();
     }
 
-    public List<String> searchTweets() throws TwitterException {
-        Query query = new Query("china");
+    public List<String> searchTweets(List<String> keywords) throws TwitterException {
+        if (keywords == null || keywords.size() == 0) return new ArrayList<>();
+        StringBuilder sb = new StringBuilder();
+        Queue<LinkedList<String>> queue = new LinkedList<>();
+        for (String str : keywords) queue.offer(new LinkedList<>(Arrays.asList(str.split(" "))));
+        int counter = 0;
+        while (!queue.isEmpty() && counter < Utils.keywordShortcut) {
+            LinkedList<String> list = queue.poll();
+            if (list != null && list.size() > 0) {
+                sb.append(list.removeFirst()).append('&');
+                counter++;
+            }
+            if (list != null && list.size() != 0) queue.offer(list);
+        }
+        sb.setLength(sb.length()-1);
+        if (sb.length() == 0) return new ArrayList<>();
+        Query query = new Query(sb.toString());
         query.lang("en");
         QueryResult result = twitter.search(query);
 
-        return result.getTweets().stream()
-                .map(Status::getText)
-                .collect(Collectors.toList());
+        Set<String> set = new HashSet<>();
+        for (Status status : result.getTweets()) {
+            sb.setLength(0);
+            String text = status.getText();
+            for (char c : text.toCharArray()) {
+                if (c == '\n') sb.append(' ');
+                else sb.append(c);
+            }
+            set.add(sb.toString());
+        }
+        return new ArrayList<>(set);
     }
 
     public static void main(String[] args) throws TwitterException {
-       TwitterService twitterService = new TwitterService();
-       for (String str : twitterService.searchTweets())
+        String[] arr = { "new york times", "global markets fall", "wall street"};
+        TwitterService twitterService = new TwitterService();
+        for (String str : twitterService.searchTweets(Arrays.asList(arr)))
             System.out.println(str);
     }
 }

@@ -21,7 +21,7 @@ public class UpdateNewsService extends TimerTask {
             Map<Integer, List<News>> news = null;
             try {
                 json = Utils.getNewsJson(type);
-                news = Utils.parseNewsJson(paperWebApplication.keyWordExtractionService, true, json);
+                news = Utils.parseNewsJson( json);
             } catch (IOException e) {
                 e.printStackTrace();
             }
