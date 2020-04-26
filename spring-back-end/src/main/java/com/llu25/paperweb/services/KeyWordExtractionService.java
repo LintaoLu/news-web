@@ -28,7 +28,6 @@ public class KeyWordExtractionService {
         // Use the keyword extractor
         ExtraParam[] extraParams = {new ExtraParam("max_keywords", String.valueOf(Utils.keyWordsPerNews))};
         MonkeyLearnResponse res = ml.extractors.extract("ex_YCya9nrn", textList, extraParams);
-
         // parse json array
         List<List<String>> list = new ArrayList<>();
         String json = res.arrayResult.toString();

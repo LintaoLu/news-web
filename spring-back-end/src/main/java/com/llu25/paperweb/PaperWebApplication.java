@@ -2,14 +2,10 @@ package com.llu25.paperweb;
 
 import com.llu25.paperweb.datastructures.FIFO;
 import com.llu25.paperweb.datastructures.LRU;
-import com.llu25.paperweb.services.KeyWordExtractionService;
-import com.llu25.paperweb.services.TwitterService;
 import com.llu25.paperweb.services.UpdateNewsService;
-import com.monkeylearn.MonkeyLearnException;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.*;
-import twitter4j.TwitterException;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -34,7 +30,7 @@ public class PaperWebApplication {
 
     @GetMapping("/getNews")
     @ResponseBody
-    public List<News> getNews(@RequestParam int id, @RequestParam String keyword) throws IOException, TwitterException, MonkeyLearnException {
+    public List<News> getNews(@RequestParam int id, @RequestParam String keyword) throws IOException {
         System.out.println("accept request " + id + " " + keyword);
         List<News> list = new LinkedList<>();
         if (keyword.equals("")) return list;
