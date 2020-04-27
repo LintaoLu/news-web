@@ -22,19 +22,19 @@ public class PaperWebApplication {
 
     private Map<String, FIFO<List<News>>> news;
     private LRU<String, Map<Integer, List<News>>> searchHistory;
-    public final UpdateNewsService updateNewsService;
-    private final KeyWordExtractionService ks;
-    private final TwitterService ts;
+    public final UpdateNewsService us;
+    public final KeyWordExtractionService ks;
+    public final TwitterService ts;
 
     public PaperWebApplication() {
         news = new ConcurrentHashMap<>();
         for (String type : Utils.basicNewsTypes) news.put(type, new FIFO<>(Utils.FIFOSize));
         searchHistory = new LRU<>(Utils.LRUSize);
-        updateNewsService = new UpdateNewsService(this);
+        us = new UpdateNewsService(this);
         ks = new KeyWordExtractionService();
         ts = new TwitterService();
         Timer timer = new Timer();
-        timer.schedule(updateNewsService, 0, Utils.updatePeriod);
+        timer.schedule(us, 0, Utils.updatePeriod);
     }
 
     @GetMapping("/getNews")

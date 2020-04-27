@@ -21,10 +21,10 @@ public class Utils {
     public static final String news_api_key, monkey_learn_api_key;
     public static final List<String> twitter_api_keys;
     public static final Set<String> basicNewsTypes;
-    public static long updatePeriod = 3600000; //60 Min
+    public static long updatePeriod = 7200000; //120 Min
 
     static {
-        String[] types = {"general", "science", "business", "sports", "health", "technology", "entertainment" };
+        String[] types = {"general", "science", "business", "sports", "health", "technology", "entertainment"};
         basicNewsTypes = new HashSet<>(Arrays.asList(types));
         news_api_key = readAPIKey("news_api_key.txt").get(0);
         monkey_learn_api_key = readAPIKey("monkey_learn_api_key.txt").get(0);

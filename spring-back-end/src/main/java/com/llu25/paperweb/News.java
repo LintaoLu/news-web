@@ -72,17 +72,4 @@ public class News {
     public void setTweets(List<String> tweets) {
         this.tweets = tweets;
     }
-
-    @Override
-    public String toString() {
-        return "News{" +
-                "source='" + source + '\'' +
-                ", author='" + author + '\'' +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", url='" + url + '\'' +
-                ", urlToImage='" + urlToImage + '\'' +
-                ", publishedAt='" + publishedAt + '\'' +
-                '}';
-    }
 }
