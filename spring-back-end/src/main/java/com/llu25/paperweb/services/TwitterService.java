@@ -19,7 +19,7 @@ public class TwitterService {
         twitter = new TwitterFactory(cb.build()).getInstance();
     }
 
-    public List<String> searchTweets(List<String> keywords) throws TwitterException {
+    public List<Status> searchTweets(List<String> keywords) throws TwitterException {
         if (keywords == null || keywords.size() == 0) return new ArrayList<>();
         StringBuilder sb = new StringBuilder();
         Queue<LinkedList<String>> queue = new LinkedList<>();
@@ -39,6 +39,7 @@ public class TwitterService {
         query.lang("en");
         QueryResult result = twitter.search(query);
 
+        List<Status> list = new ArrayList<>();
         Set<String> set = new HashSet<>();
         for (Status status : result.getTweets()) {
             sb.setLength(0);
@@ -47,15 +48,10 @@ public class TwitterService {
                 if (c == '\n') sb.append(' ');
                 else sb.append(c);
             }
+            if (set.contains(sb.toString())) continue;
             set.add(sb.toString());
+            list.add(status);
         }
-        return new ArrayList<>(set);
-    }
-
-    public static void main(String[] args) throws TwitterException {
-        String[] arr = { "new york times", "global markets fall", "wall street"};
-        TwitterService twitterService = new TwitterService();
-        for (String str : twitterService.searchTweets(Arrays.asList(arr)))
-            System.out.println(str);
+        return list;
     }
 }

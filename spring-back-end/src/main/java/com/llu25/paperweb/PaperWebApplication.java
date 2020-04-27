@@ -9,6 +9,7 @@ import com.monkeylearn.MonkeyLearnException;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.*;
+import twitter4j.Status;
 import twitter4j.TwitterException;
 import java.io.IOException;
 import java.util.*;
@@ -61,7 +62,7 @@ public class PaperWebApplication {
 
     @GetMapping("/getTweets")
     @ResponseBody
-    public List<String> getTweets( @RequestParam String content) throws MonkeyLearnException, TwitterException {
+    public List<Status> getTweets(@RequestParam String content) throws MonkeyLearnException, TwitterException {
         content = content.replaceAll("%20", " ");
         System.out.println(content);
         List<String> keyWords = ks.getKeyWordsFromInternet(new String[] {content}).get(0);
