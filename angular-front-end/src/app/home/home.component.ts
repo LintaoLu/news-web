@@ -54,10 +54,12 @@ export class HomeComponent implements OnInit {
   }
 
   public loadTweets(e:any) {
+    if (e.hasTweet) return;
     this.newsService.getTweets(e.key.title).subscribe(
       data=> {
         e.tweets = e.tweets.concat(data);
       });
+    e.hasTweet = true;
   }
 }
 
