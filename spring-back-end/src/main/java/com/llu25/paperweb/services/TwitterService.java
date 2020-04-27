@@ -22,16 +22,15 @@ public class TwitterService {
     public List<Status> searchTweets(List<String> keywords) throws TwitterException {
         if (keywords == null || keywords.size() == 0) return new ArrayList<>();
         StringBuilder sb = new StringBuilder();
-        Queue<LinkedList<String>> queue = new LinkedList<>();
-        for (String str : keywords) queue.offer(new LinkedList<>(Arrays.asList(str.split(" "))));
         int counter = 0;
-        while (!queue.isEmpty() && counter < Utils.keywordShortcut) {
-            LinkedList<String> list = queue.poll();
-            if (list != null && list.size() > 0) {
-                sb.append(list.removeFirst()).append('&');
+        for (String str : keywords) {
+            if (counter >= Utils.keywordShortcut) break;
+            String[] words = str.split(" ");
+            for (String word : words) {
+                if (counter >= Utils.keywordShortcut) break;
+                sb.append(word).append('&');
                 counter++;
             }
-            if (list != null && list.size() != 0) queue.offer(list);
         }
         sb.setLength(sb.length()-1);
         if (sb.length() == 0) return new ArrayList<>();
