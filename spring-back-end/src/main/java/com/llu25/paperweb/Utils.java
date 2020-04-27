@@ -21,7 +21,7 @@ public class Utils {
     public static final String news_api_key, monkey_learn_api_key;
     public static final List<String> twitter_api_keys;
     public static final Set<String> basicNewsTypes;
-    public static long updatePeriod = 10800000; //180 Min
+    public static long updatePeriod = 3600000; //60 Min
 
     static {
         String[] types = {"general", "science", "business", "sports", "health", "technology", "entertainment" };
