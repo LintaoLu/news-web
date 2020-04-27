@@ -58,8 +58,8 @@ export class HomeComponent implements OnInit {
     this.newsService.getTweets(e.key.title).subscribe(
       data=> {
         e.tweets = e.tweets.concat(data);
+        e.hasTweet = true;
       });
-    e.hasTweet = true;
   }
 }
 
