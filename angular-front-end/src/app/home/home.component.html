@@ -17,12 +17,14 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#">Account</a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Settings</a>
-                    <div class="dropdown-menu" aria-labelledby="dropdown01">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <a class="dropdown-item" href="#">Something else here</a>
+                <li class="nav-item">
+                    <div ngbDropdown class="d-inline-block">
+                        <a class="nav-link myClickableThingy" id="dropdownBasic1" ngbDropdownToggle>Toggle dropdown</a>
+                        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                            <li ngbDropdownItem>Action - 1</li>
+                            <li ngbDropdownItem>Another Action</li>
+                            <li ngbDropdownItem>Something else is here</li>
+                        </div>
                     </div>
                 </li>
                 <li class="nav-item">
@@ -35,7 +37,7 @@
             </form>
         </div>
     </nav>
-    
+
     <div class="nav-scroller bg-white box-shadow">
         <nav class="nav nav-underline">
             <a class="nav-link myClickableThingy" (click)="reset('general')">General</a>
@@ -47,6 +49,56 @@
             <a class="nav-link myClickableThingy" (click)="reset('technology')">Technology</a>
         </nav>
     </div>
+    
+     <!--
+    <div class="navbar-scroller bg-white box-shadow">
+        <nav class="nav nav-underline">
+            <a class="nav-link myClickableThingy" (click)="reset('general')">General</a>
+            <a class="nav-link myClickableThingy" (click)="reset('business')">Business</a>
+            <a class="nav-link myClickableThingy" (click)="reset('entertainment')">Entertainment</a>
+            <a class="nav-link myClickableThingy" (click)="reset('health')">Health</a>
+            <a class="nav-link myClickableThingy" (click)="reset('science')">Science</a>
+            <a class="nav-link myClickableThingy" (click)="reset('sports')">Sports</a>
+            <a class="nav-link myClickableThingy" (click)="reset('technology')">Technology</a>
+           
+            <div ngbDropdown class="d-inline-block">
+                <a class="nav-link myClickableThingy" id="dropdownBasic1" ngbDropdownToggle>More</a>
+                <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                    <div class="container">
+                        <div class="row">
+                            <a class="col-1 nav-link myClickableThingy"><p class='text-dark'>link1</p></a>
+                            <a class="col-1 nav-link myClickableThingy"><p class='text-dark'>link1</p></a>
+                            <a class="col-1 nav-link myClickableThingy"><p class='text-dark'>link1</p></a>
+                            <a class="col-1 nav-link myClickableThingy"><p class='text-dark'>link1</p></a>
+                            <a class="col-1 nav-link myClickableThingy"><p class='text-dark'>link1</p></a>
+                            <a class="col-1 nav-link myClickableThingy"><p class='text-dark'>link1</p></a>
+                            <a class="col-1 nav-link myClickableThingy"><p class='text-dark'>link1</p></a>
+                            <a class="col-1 nav-link myClickableThingy"><p class='text-dark'>link1</p></a>
+                            <a class="col-1 nav-link myClickableThingy"><p class='text-dark'>link1</p></a>
+                            <a class="col-1 nav-link myClickableThingy"><p class='text-dark'>link1</p></a>
+                            <a class="col-1 nav-link myClickableThingy"><p class='text-dark'>link1</p></a>
+                            <a class="col-1 nav-link myClickableThingy"><p class='text-dark'>link1</p></a>
+                        </div>
+                        <div class="row">
+                            <a class="col-1 nav-link myClickableThingy"><p class='text-dark'>link1</p></a>
+                            <a class="col-1 nav-link myClickableThingy"><p class='text-dark'>link1</p></a>
+                            <a class="col-1 nav-link myClickableThingy"><p class='text-dark'>link1</p></a>
+                            <a class="col-1 nav-link myClickableThingy"><p class='text-dark'>link1</p></a>
+                            <a class="col-1 nav-link myClickableThingy"><p class='text-dark'>link1</p></a>
+                            <a class="col-1 nav-link myClickableThingy"><p class='text-dark'>link1</p></a>
+                            <a class="col-1 nav-link myClickableThingy"><p class='text-dark'>link1</p></a>
+                            <a class="col-1 nav-link myClickableThingy"><p class='text-dark'>link1</p></a>
+                            <a class="col-1 nav-link myClickableThingy"><p class='text-dark'>link1</p></a>
+                            <a class="col-1 nav-link myClickableThingy"><p class='text-dark'>link1</p></a>
+                            <a class="col-1 nav-link myClickableThingy"><p class='text-dark'>link1</p></a>
+                            <a class="col-1 nav-link myClickableThingy"><p class='text-dark'>link1</p></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </nav>
+    </div>-->
     
     <main role="main" class="container">
         <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
@@ -71,8 +123,8 @@
                             <div class="row"><p class="text-justify">{{e.key.description}}<span><small><a href="{{e.key.url}}"> Read more</a></small></span></p></div>
                             <div class="row float-right pr-4">  
                                 <p>
-                                    <button type="button" class="btn btn-outline-dark" (click)="e.val = !e.val"
-                                            [attr.aria-expanded]="!e.val" aria-controls="example">
+                                    <button type="button" class="btn btn-outline-dark" (click)="e.isCollapsed = !e.isCollapsed; loadTweets(e)"
+                                            [attr.aria-expanded]="!e.isCollapsed" aria-controls="example">
                                       <small>Opinions</small>
                                     </button>
                                   </p>
@@ -81,10 +133,21 @@
                     </div>
                 </div>
             </div>
-            <div id="example" [ngbCollapse]="e.val">
+            <div id="example" [ngbCollapse]="e.isCollapsed">
                 <div class="card">
                     <div class="card-body">
-                    some data
+                        <div *ngIf="!e.hasTweet" class="text-center">
+                            <div class="spinner-border" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+                        <div class="container">
+                            <ng-container *ngFor="let tweet of e.tweets;">
+                                <div class="row">
+                                    <q class="font-weight-light font-italic">{{tweet}}</q>
+                                </div>
+                            </ng-container>
+                        </div>
                     </div>
                 </div>
             </div>

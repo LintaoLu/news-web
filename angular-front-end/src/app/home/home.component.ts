@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NewsService } from '../news.service';
+import { NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-home',
@@ -7,13 +8,14 @@ import { NewsService } from '../news.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  title = 'paper-web';
   news = [];
   type: string;
   id = 1;
   finished = false;
 
-  constructor(private newsService: NewsService) { }
+  constructor(private newsService: NewsService, config: NgbDropdownConfig) { 
+    config.placement="bottom";
+  }
 
   ngOnInit() {
     this.type = localStorage.getItem('type');
@@ -31,7 +33,9 @@ export class HomeComponent implements OnInit {
     this.newsService.getNews(this.type, this.id++).subscribe(
       data=> {
         let tmp = []; tmp = tmp.concat(data);
-        for (let e of tmp) this.news.push({key:e, val:true});
+        for (let e of tmp) {
+          this.news.push({key:e, isCollapsed:true, hasTweet:false, tweets:[]});
+        }
         this.finished = tmp.length == 0 ? true : false;
         localStorage.setItem('type', this.type);
       });
@@ -49,5 +53,17 @@ export class HomeComponent implements OnInit {
     window.scroll(0, 0);
   }
 
+  public loadTweets(e:any) {
+    this.newsService.getTweets(e.key.title).subscribe(
+      data=> {
+        e.tweets = e.tweets.concat(data);
+      });
+  }
+}
 
+interface NewsContainer {
+  key: any;
+  isCollapsed: boolean;
+  hasTweet: boolean;
+  tweets: any;
 }

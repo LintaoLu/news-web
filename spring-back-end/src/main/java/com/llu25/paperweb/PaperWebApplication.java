@@ -2,10 +2,15 @@ package com.llu25.paperweb;
 
 import com.llu25.paperweb.datastructures.FIFO;
 import com.llu25.paperweb.datastructures.LRU;
+import com.llu25.paperweb.services.KeyWordExtractionService;
+import com.llu25.paperweb.services.TwitterService;
 import com.llu25.paperweb.services.UpdateNewsService;
+import com.monkeylearn.MonkeyLearnException;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.*;
+import twitter4j.TwitterException;
+
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -18,12 +23,16 @@ public class PaperWebApplication {
     private Map<String, FIFO<List<News>>> news;
     private LRU<String, Map<Integer, List<News>>> searchHistory;
     public final UpdateNewsService updateNewsService;
+    private final KeyWordExtractionService ks;
+    private final TwitterService ts;
 
     public PaperWebApplication() {
         news = new ConcurrentHashMap<>();
         for (String type : Utils.basicNewsTypes) news.put(type, new FIFO<>(Utils.FIFOSize));
         searchHistory = new LRU<>(Utils.LRUSize);
         updateNewsService = new UpdateNewsService(this);
+        ks = new KeyWordExtractionService();
+        ts = new TwitterService();
         Timer timer = new Timer();
         timer.schedule(updateNewsService, 0, Utils.updatePeriod);
     }
@@ -49,6 +58,15 @@ public class PaperWebApplication {
             list = searchHistory.get(keyword).get(id);
         }
         return list == null ? new LinkedList<>() : list;
+    }
+
+    @GetMapping("/getTweets")
+    @ResponseBody
+    public List<String> getTweets( @RequestParam String content) throws MonkeyLearnException, TwitterException {
+        content = content.replaceAll("%20", " ");
+        System.out.println(content);
+        List<String> keyWords = ks.getKeyWordsFromInternet(new String[] {content}).get(0);
+        return ts.searchTweets(keyWords);
     }
 
     public Map<String, FIFO<List<News>>> getNews() { return news; }

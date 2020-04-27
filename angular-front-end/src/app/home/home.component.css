@@ -102,3 +102,8 @@ body {
 .myClickableThingy {
   cursor: pointer;
 }
+
+
+.dropdown-menu {
+  min-width: 800px;
+}

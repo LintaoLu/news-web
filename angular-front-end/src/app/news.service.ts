@@ -11,4 +11,8 @@ export class NewsService {
   public getNews(type:string, id:number) {
     return this.http.get('https://lintaolu.com/getNews?id=' + id + '&keyword=' + type);
   }
+
+  public getTweets(content:string) {
+    return this.http.get('https://lintaolu.com/getTweets?content=' + content);
+  }
 }
