@@ -62,10 +62,3 @@ export class HomeComponent implements OnInit {
       });
   }
 }
-
-interface NewsContainer {
-  key: any;
-  isCollapsed: boolean;
-  hasTweet: boolean;
-  tweets: any;
-}

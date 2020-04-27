@@ -141,13 +141,19 @@
                                 <span class="sr-only">Loading...</span>
                             </div>
                         </div>
-                        <div class="container">
-                            <ng-container *ngFor="let tweet of e.tweets;">
-                                <div class="row">
-                                    <p class="font-weight-light font-italic">{{tweet}}</p>
+                        <div *ngFor="let tweet of e.tweets;">
+                            <div class="frame my-1 p-1 bg-white rounded box-shadow">
+                                <div class="container">
+                                    <div class="row justify-content-center">
+                                        <div class="col-md-1 align-self-center">
+                                            <img src="{{tweet.user.profileImageURL}}" class="round-img" height="40" width="40">
+                                        </div>
+                                        <div class="col">
+                                            <p class="align-middle"><small class="font-weight-bold">@{{tweet.user.name}}</small><small>{{tweet.text}}</small></p>
+                                        </div> 
+                                    </div>
                                 </div>
-                                <hr>
-                            </ng-container>
+                            </div>
                         </div>
                     </div>
                 </div>

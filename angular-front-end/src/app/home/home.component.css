@@ -107,3 +107,8 @@ body {
 .dropdown-menu {
   min-width: 800px;
 }
+
+.round-img {
+  border-radius: 50%;
+  
+}
