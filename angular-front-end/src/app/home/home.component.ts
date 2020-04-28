@@ -12,6 +12,7 @@ export class HomeComponent implements OnInit {
   type: string;
   id = 1;
   finished = false;
+  pageSize = 3;
 
   constructor(private newsService: NewsService, config: NgbDropdownConfig) { 
     config.placement="bottom";
@@ -34,7 +35,7 @@ export class HomeComponent implements OnInit {
       data=> {
         let tmp = []; tmp = tmp.concat(data);
         for (let e of tmp) {
-          this.news.push({key:e, isCollapsed:true, hasTweet:false, tweets:[]});
+          this.news.push({key:e, isCollapsed:true, hasTweet:false, tweets:[], page:1});
         }
         this.finished = tmp.length == 0 ? true : false;
         localStorage.setItem('type', this.type);
