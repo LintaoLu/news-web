@@ -143,9 +143,8 @@
                         </div>
 
                         <div *ngIf="e.hasTweet" class="twetter-container">
-              
                             <div *ngFor="let tweet of e.tweets | slice: (e.page-1) * pageSize : (e.page-1) * pageSize + pageSize">
-                                <div class="frame my-1 p-1 bg-white rounded box-shadow">
+                                <div class="fade-in my-1 p-1 bg-white rounded box-shadow">
                                     <div class="container">
                                         <div class="row">
                                             <div class="col-md-1 align-self-center">
@@ -158,10 +157,11 @@
                                     </div>
                                 </div>
                             </div>
- 
                         </div>
-                        <div *ngIf="e.hasTweet" class="container-fluid fix-position">
-                            <div class="row text-center justify-content-center" > 
+
+                        <div *ngIf="e.hasTweet" class="row">
+                            <div class="col-md-9"><p class="text-right font-italic font-weight-bold"><small>NLP keywords extraction and twitter API seach</small></p></div>
+                            <div class="col text-center pl-3"> 
                                 <ngb-pagination [(page)]="e.page" [pageSize]="pageSize" [collectionSize]="e.tweets.length" size="sm"></ngb-pagination>
                             </div>
                         </div>

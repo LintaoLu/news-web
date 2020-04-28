@@ -131,7 +131,7 @@ ngb-pagination ::ng-deep .page-link:not(:disabled):not(.disabled):active:focus {
 }
 
 .twetter-container{
-  height: 250px;
+  height: 232px;
   width:100%;
   padding-right:15px;
   padding-left:15px;
@@ -139,3 +139,20 @@ ngb-pagination ::ng-deep .page-link:not(:disabled):not(.disabled):active:focus {
   margin-left:auto
 }
 
+
+.fade-in {
+	opacity: 1;
+	animation-name: fadeInOpacity;
+	animation-iteration-count: 1;
+	animation-timing-function: ease-in;
+	animation-duration: 1s;
+}
+
+@keyframes fadeInOpacity {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
