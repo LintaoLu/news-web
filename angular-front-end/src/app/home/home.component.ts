@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { NewsService } from '../news.service';
-import { NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-home',
@@ -9,19 +8,20 @@ import { NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
 })
 export class HomeComponent implements OnInit {
   news = [];
+  source = [];
   type: string;
   id = 1;
   finished = false;
   pageSize = 3;
   isCollapsed = true;
 
-  constructor(private newsService: NewsService, config: NgbDropdownConfig) { 
-  }
+  constructor(private newsService: NewsService) { }
 
   ngOnInit() {
     this.type = localStorage.getItem('type');
     if (this.type === null)  this.type = 'general';
     this.getNews();
+    this.loadSource();
   }
 
   onScroll() {
@@ -48,6 +48,7 @@ export class HomeComponent implements OnInit {
     this.id = 1;
     this.finished = false;
     this.getNews();
+    this.isCollapsed = true;
   }
 
   public backToTop() {
@@ -65,5 +66,22 @@ export class HomeComponent implements OnInit {
 
   public goToLink(url: string){
     window.open(url);
+  }
+
+  private loadSource() {
+    this.newsService.getSource('a').subscribe(
+      data=> {
+        let tmp = []; tmp = tmp.concat(data);
+        let i = 0;
+        while (i < tmp.length) {
+          let component = [];
+          for (let j = 0; j < 5; j++) {
+            component.push({sourceId: tmp[i].key, sourceName: tmp[i].value});
+            if (++i == tmp.length) break;
+          }
+          this.source.push(component);
+        }
+        this.source.push([]);
+      });
   }
 }

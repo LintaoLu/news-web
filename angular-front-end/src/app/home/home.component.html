@@ -55,83 +55,24 @@
         <div class="container-fluid px-0">
             <div class="row no-gutters">
                 <div class="col-12">
-                    <div class="row bg-white rounded-0 m-0 shadow-sm align-items-center">
-                        <div class="col-lg-7 col-xl-8">
-                        <div class="p-4">
+                    <div class="row bg-white rounded-0 m-0 shadow-sm">
+                        <div class="container-fluid bg-light">
                             <div class="row">
                                 <div class="col-lg-3 mb-2">
-                                    <h6 class="font-weight-bold text-uppercase pl-3">Top news!</h6>
+                                    <h6 class="font-weight-bold text-uppercase pl-3 pt-2">Breaking news!</h6>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-lg-3 mb-2">
-                                    <ul class="list-unstyled">
-                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0">Unique Features</a></li>
-                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0 ">Image Responsive</a></li>
-                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0 ">Auto Carousel</a></li>
-                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0 ">Newsletter Form</a></li>
-                                    </ul>
-                                </div>
-                                <div class="col-lg-3 mb-2">
-                                    <ul class="list-unstyled">
-                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0 ">Unique Features</a></li>
-                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0 ">Image Responsive</a></li>
-                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0 ">Auto Carousel</a></li>
-                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0 ">Newsletter Form</a></li>
-                                    </ul>
-                                </div>
-                                <div class="col-lg-3 mb-2">
-                                    <ul class="list-unstyled">
-                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0 ">Unique Features</a></li>
-                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0 ">Image Responsive</a></li>
-                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0 ">Auto Carousel</a></li>
-                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0 ">Newsletter Form</a></li>
-                                    </ul>
-                                </div>
-                                <div class="col-lg-3 mb-2">
-                                    <ul class="list-unstyled">
-                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0 ">Unique Features</a></li>
-                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0 ">Image Responsive</a></li>
-                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0 ">Auto Carousel</a></li>
-                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0 ">Newsletter Form</a></li>
-                                    </ul>
-                                </div>
-                                <div class="col-lg-3 mb-2">
-                                    <ul class="list-unstyled">
-                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0">Unique Features</a></li>
-                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0 ">Image Responsive</a></li>
-                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0 ">Auto Carousel</a></li>
-                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0 ">Newsletter Form</a></li>
-                                    </ul>
-                                </div>
-                                <div class="col-lg-3 mb-2">
-                                    <ul class="list-unstyled">
-                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0 ">Unique Features</a></li>
-                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0 ">Image Responsive</a></li>
-                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0 ">Auto Carousel</a></li>
-                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0 ">Newsletter Form</a></li>
-                                    </ul>
-                                </div>
-                                <div class="col-lg-3 mb-2">
-                                    <ul class="list-unstyled">
-                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0 ">Unique Features</a></li>
-                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0 ">Image Responsive</a></li>
-                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0 ">Auto Carousel</a></li>
-                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0 ">Newsletter Form</a></li>
-                                    </ul>
-                                </div>
-                                <div class="col-lg-3 mb-2">
-                                    <ul class="list-unstyled">
-                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0 ">Unique Features</a></li>
-                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0 ">Image Responsive</a></li>
-                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0 ">Auto Carousel</a></li>
-                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0 ">Newsletter Form</a></li>
-                                    </ul>
-                                </div>
+                                <ng-container *ngFor="let component of source; let i = index;">
+                                    <div *ngIf="i%6==0 && i!=0" class="w-100"><hr/></div>
+                                    <div class="col-lg-2 col-sm-12">
+                                        <ul class="list-unstyled">
+                                            <li *ngFor="let c of component;" class="nav-item"><a  class="nav-link text-small pb-0 myClickableThingy" (click)="reset(c.sourceId)">{{c.sourceName}}</a></li>
+                                        </ul>
+                                    </div>
+                                </ng-container>
                             </div>
                         </div>
-                        </div>
-                        <div class="col-lg-5 col-xl-4 px-0 d-none d-lg-block"> <img src="/assets/images/breaking-news.jpg" height="270" width="385"></div>
                     </div>
                 </div>
             </div>

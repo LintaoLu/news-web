@@ -15,4 +15,8 @@ export class NewsService {
   public getTweets(content:string) {
     return this.http.get('https://lintaolu.com/getTweets?content=' + content);
   }
+
+  public getSource(content:any) {
+    return this.http.get('https://lintaolu.com/getSource');
+  }
 }
