@@ -16,11 +16,11 @@ public class UpdateNewsService extends TimerTask {
 
     @Override
     public void run() {
-        for (String type : Utils.basicNewsTypes) {
+        for (String type : paperWebApplication.basicNewsTypes) {
             String json;
             Map<Integer, List<News>> news = null;
             try {
-                json = Utils.getNewsJson(type);
+                json = paperWebApplication.getNewsJson(type);
                 news = Utils.parseNewsJson( json);
             } catch (IOException e) {
                 e.printStackTrace();

@@ -20,12 +20,10 @@ public class Utils {
     public static int LRUSize = 100, FIFOSize = 20;
     public static final String news_api_key, monkey_learn_api_key;
     public static final List<String> twitter_api_keys;
-    public static final Set<String> basicNewsTypes;
+
     public static long updatePeriod = 7200000; //120 Min
 
     static {
-        String[] types = {"general", "science", "business", "sports", "health", "technology", "entertainment"};
-        basicNewsTypes = new HashSet<>(Arrays.asList(types));
         news_api_key = readAPIKey("news_api_key.txt").get(0);
         monkey_learn_api_key = readAPIKey("monkey_learn_api_key.txt").get(0);
         twitter_api_keys = readAPIKey("twitter_api_key.txt");
@@ -88,15 +86,6 @@ public class Utils {
         return map;
     }
 
-    public static String getNewsJson(String keyword) throws IOException {
-        if (basicNewsTypes.contains(keyword)) {
-            return doGet("http://newsapi.org/v2/top-headlines?country=us&category=" +
-                    keyword + "&apiKey=" + news_api_key);
-        }
-        return doGet("https://newsapi.org/v2/everything?q=" + keyword +
-                "&language=en&sortBy=publishedAt&apiKey=" + news_api_key);
-    }
-
     private static List<String> readAPIKey(String path) {
         List<String> list = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
@@ -122,7 +111,7 @@ public class Utils {
         } catch (Exception e) { e.printStackTrace(); }
     }
 
-    public static List<Pair<String, String>> parseSourceJason() throws IOException {
+    public static List<Pair<String, String>> getSource() throws IOException {
         String request = "https://newsapi.org/v2/sources?language=en&apiKey=" + news_api_key;
         String json = doGet(request);
         List<Pair<String, String>> list = new ArrayList<>();
@@ -136,5 +125,11 @@ public class Utils {
             list.add(new Pair<>(sourceId, sourceName));
         }
         return list;
+    }
+
+    public static void main(String[] args) throws IOException {
+        List<Pair<String, String>> list = getSource();
+        System.out.println(list);
+        System.out.println(list.size());
     }
 }

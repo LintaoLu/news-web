@@ -2,6 +2,7 @@ package com.llu25.paperweb;
 
 import com.llu25.paperweb.datastructures.FIFO;
 import com.llu25.paperweb.datastructures.LRU;
+import com.llu25.paperweb.datastructures.Pair;
 import com.llu25.paperweb.services.KeyWordExtractionService;
 import com.llu25.paperweb.services.TwitterService;
 import com.llu25.paperweb.services.UpdateNewsService;
@@ -22,17 +23,28 @@ public class PaperWebApplication {
 
     private Map<String, FIFO<List<News>>> news;
     private LRU<String, Map<Integer, List<News>>> searchHistory;
+    private List<Pair<String, String>> source;
     public final UpdateNewsService us;
     public final KeyWordExtractionService ks;
     public final TwitterService ts;
+    public final Set<String> basicNewsTypes, sourceId;
 
-    public PaperWebApplication() {
+    public PaperWebApplication() throws IOException {
         news = new ConcurrentHashMap<>();
-        for (String type : Utils.basicNewsTypes) news.put(type, new FIFO<>(Utils.FIFOSize));
+        // get basic news
+        String[] types = {"general", "science", "business", "sports", "health", "technology", "entertainment"};
+        basicNewsTypes = new HashSet<>(Arrays.asList(types));
+        for (String type : basicNewsTypes) news.put(type, new FIFO<>(Utils.FIFOSize));
         searchHistory = new LRU<>(Utils.LRUSize);
+        // get source
+        source = Utils.getSource();
+        sourceId = new HashSet<>();
+        for (Pair<String, String> pair : source) sourceId.add(pair.getKey());
+        // initialize services
         us = new UpdateNewsService(this);
         ks = new KeyWordExtractionService();
         ts = new TwitterService();
+        // start update services
         Timer timer = new Timer();
         timer.schedule(us, 0, Utils.updatePeriod);
     }
@@ -49,10 +61,10 @@ public class PaperWebApplication {
         sb.setLength(sb.length()-1);
         keyword = sb.toString();
         System.out.println(keyword);
-        if (Utils.basicNewsTypes.contains(keyword)) list = news.get(keyword).get(id);
+        if (basicNewsTypes.contains(keyword)) list = news.get(keyword).get(id);
         else {
             if (!searchHistory.containsKey(keyword)) {
-                Map<Integer, List<News>> thisNews = Utils.parseNewsJson(Utils.getNewsJson(keyword));
+                Map<Integer, List<News>> thisNews = Utils.parseNewsJson(getNewsJson(keyword));
                 searchHistory.set(keyword, thisNews);
             }
             list = searchHistory.get(keyword).get(id);
@@ -60,13 +72,31 @@ public class PaperWebApplication {
         return list == null ? new LinkedList<>() : list;
     }
 
+    public String getNewsJson(String keyword) throws IOException {
+        if (basicNewsTypes.contains(keyword)) {
+            return Utils.doGet("http://newsapi.org/v2/top-headlines?country=us&category=" +
+                    keyword + "&apiKey=" + Utils.news_api_key);
+        }
+        else if (sourceId.contains(keyword)) {
+            return Utils.doGet("http://newsapi.org/v2/top-headlines?sources=" +
+                    keyword + "&apiKey=" + Utils.news_api_key);
+        }
+        return Utils.doGet("https://newsapi.org/v2/everything?q=" + keyword +
+                "&language=en&sortBy=publishedAt&apiKey=" + Utils.news_api_key);
+    }
+
     @GetMapping("/getTweets")
     @ResponseBody
     public List<Status> getTweets(@RequestParam String content) throws MonkeyLearnException, TwitterException {
         content = content.replaceAll("%20", " ");
-        System.out.println(content);
         List<String> keyWords = ks.getKeyWordsFromInternet(new String[] {content}).get(0);
         return ts.searchTweets(keyWords);
+    }
+
+    @GetMapping("/getSource")
+    @ResponseBody
+    public List<Pair<String, String>> getSource(){
+        return source;
     }
 
     public Map<String, FIFO<List<News>>> getNews() { return news; }
