@@ -62,4 +62,8 @@ export class HomeComponent implements OnInit {
         e.hasTweet = true;
       });
   }
+
+  public goToLink(url: string){
+    window.open(url);
+  }
 }

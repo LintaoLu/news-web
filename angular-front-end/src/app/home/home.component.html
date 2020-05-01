@@ -120,7 +120,7 @@
                         <div class="col pl-4 pr-4 align-self-center">
                             <div class="row pt-3"><h4>{{e.key.title}}</h4></div>
                             <div class="row"><p class="text-muted font-italic">{{e.key.author}} {{e.key.publishedAt}}</p></div>
-                            <div class="row"><p class="text-justify">{{e.key.description}}<span><small><a href="{{e.key.url}}"> Read more</a></small></span></p></div>
+                            <div class="row"><p class="text-justify">{{e.key.description}}<a class="pl-2" (click)="goToLink(e.key.url)"> <small class="myClickableThingy text-primary">Read more</small></a></p></div>
                             <div class="row float-right pr-4">  
                                 <p>
                                     <button type="button" class="btn btn-outline-dark" (click)="e.isCollapsed = !e.isCollapsed; loadTweets(e)"
