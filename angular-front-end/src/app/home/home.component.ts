@@ -13,9 +13,9 @@ export class HomeComponent implements OnInit {
   id = 1;
   finished = false;
   pageSize = 3;
+  isCollapsed = true;
 
   constructor(private newsService: NewsService, config: NgbDropdownConfig) { 
-    config.placement="bottom";
   }
 
   ngOnInit() {

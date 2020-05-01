@@ -47,58 +47,96 @@
             <a class="nav-link myClickableThingy" (click)="reset('science')">Science</a>
             <a class="nav-link myClickableThingy" (click)="reset('sports')">Sports</a>
             <a class="nav-link myClickableThingy" (click)="reset('technology')">Technology</a>
+            <a class="nav-link myClickableThingy dropdown-toggle" (click)="isCollapsed = !isCollapsed;"
+                [attr.aria-expanded]="!isCollapsed" aria-controls="allNews">More</a>
         </nav>
     </div>
-    
-     <!--
-    <div class="navbar-scroller bg-white box-shadow">
-        <nav class="nav nav-underline">
-            <a class="nav-link myClickableThingy" (click)="reset('general')">General</a>
-            <a class="nav-link myClickableThingy" (click)="reset('business')">Business</a>
-            <a class="nav-link myClickableThingy" (click)="reset('entertainment')">Entertainment</a>
-            <a class="nav-link myClickableThingy" (click)="reset('health')">Health</a>
-            <a class="nav-link myClickableThingy" (click)="reset('science')">Science</a>
-            <a class="nav-link myClickableThingy" (click)="reset('sports')">Sports</a>
-            <a class="nav-link myClickableThingy" (click)="reset('technology')">Technology</a>
-           
-            <div ngbDropdown class="d-inline-block">
-                <a class="nav-link myClickableThingy" id="dropdownBasic1" ngbDropdownToggle>More</a>
-                <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                    <div class="container">
-                        <div class="row">
-                            <a class="col-1 nav-link myClickableThingy"><p class='text-dark'>link1</p></a>
-                            <a class="col-1 nav-link myClickableThingy"><p class='text-dark'>link1</p></a>
-                            <a class="col-1 nav-link myClickableThingy"><p class='text-dark'>link1</p></a>
-                            <a class="col-1 nav-link myClickableThingy"><p class='text-dark'>link1</p></a>
-                            <a class="col-1 nav-link myClickableThingy"><p class='text-dark'>link1</p></a>
-                            <a class="col-1 nav-link myClickableThingy"><p class='text-dark'>link1</p></a>
-                            <a class="col-1 nav-link myClickableThingy"><p class='text-dark'>link1</p></a>
-                            <a class="col-1 nav-link myClickableThingy"><p class='text-dark'>link1</p></a>
-                            <a class="col-1 nav-link myClickableThingy"><p class='text-dark'>link1</p></a>
-                            <a class="col-1 nav-link myClickableThingy"><p class='text-dark'>link1</p></a>
-                            <a class="col-1 nav-link myClickableThingy"><p class='text-dark'>link1</p></a>
-                            <a class="col-1 nav-link myClickableThingy"><p class='text-dark'>link1</p></a>
+    <div id="allNews" [ngbCollapse]="isCollapsed" class="mega-menu">
+        <div class="container-fluid px-0">
+            <div class="row no-gutters">
+                <div class="col-12">
+                    <div class="row bg-white rounded-0 m-0 shadow-sm align-items-center">
+                        <div class="col-lg-7 col-xl-8">
+                        <div class="p-4">
+                            <div class="row">
+                                <div class="col-lg-3 mb-2">
+                                    <h6 class="font-weight-bold text-uppercase pl-3">Top news!</h6>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3 mb-2">
+                                    <ul class="list-unstyled">
+                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0">Unique Features</a></li>
+                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0 ">Image Responsive</a></li>
+                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0 ">Auto Carousel</a></li>
+                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0 ">Newsletter Form</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-lg-3 mb-2">
+                                    <ul class="list-unstyled">
+                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0 ">Unique Features</a></li>
+                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0 ">Image Responsive</a></li>
+                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0 ">Auto Carousel</a></li>
+                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0 ">Newsletter Form</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-lg-3 mb-2">
+                                    <ul class="list-unstyled">
+                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0 ">Unique Features</a></li>
+                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0 ">Image Responsive</a></li>
+                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0 ">Auto Carousel</a></li>
+                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0 ">Newsletter Form</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-lg-3 mb-2">
+                                    <ul class="list-unstyled">
+                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0 ">Unique Features</a></li>
+                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0 ">Image Responsive</a></li>
+                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0 ">Auto Carousel</a></li>
+                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0 ">Newsletter Form</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-lg-3 mb-2">
+                                    <ul class="list-unstyled">
+                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0">Unique Features</a></li>
+                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0 ">Image Responsive</a></li>
+                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0 ">Auto Carousel</a></li>
+                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0 ">Newsletter Form</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-lg-3 mb-2">
+                                    <ul class="list-unstyled">
+                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0 ">Unique Features</a></li>
+                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0 ">Image Responsive</a></li>
+                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0 ">Auto Carousel</a></li>
+                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0 ">Newsletter Form</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-lg-3 mb-2">
+                                    <ul class="list-unstyled">
+                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0 ">Unique Features</a></li>
+                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0 ">Image Responsive</a></li>
+                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0 ">Auto Carousel</a></li>
+                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0 ">Newsletter Form</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-lg-3 mb-2">
+                                    <ul class="list-unstyled">
+                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0 ">Unique Features</a></li>
+                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0 ">Image Responsive</a></li>
+                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0 ">Auto Carousel</a></li>
+                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0 ">Newsletter Form</a></li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
-                        <div class="row">
-                            <a class="col-1 nav-link myClickableThingy"><p class='text-dark'>link1</p></a>
-                            <a class="col-1 nav-link myClickableThingy"><p class='text-dark'>link1</p></a>
-                            <a class="col-1 nav-link myClickableThingy"><p class='text-dark'>link1</p></a>
-                            <a class="col-1 nav-link myClickableThingy"><p class='text-dark'>link1</p></a>
-                            <a class="col-1 nav-link myClickableThingy"><p class='text-dark'>link1</p></a>
-                            <a class="col-1 nav-link myClickableThingy"><p class='text-dark'>link1</p></a>
-                            <a class="col-1 nav-link myClickableThingy"><p class='text-dark'>link1</p></a>
-                            <a class="col-1 nav-link myClickableThingy"><p class='text-dark'>link1</p></a>
-                            <a class="col-1 nav-link myClickableThingy"><p class='text-dark'>link1</p></a>
-                            <a class="col-1 nav-link myClickableThingy"><p class='text-dark'>link1</p></a>
-                            <a class="col-1 nav-link myClickableThingy"><p class='text-dark'>link1</p></a>
-                            <a class="col-1 nav-link myClickableThingy"><p class='text-dark'>link1</p></a>
                         </div>
+                        <div class="col-lg-5 col-xl-4 px-0 d-none d-lg-block"> <img src="/assets/images/breaking-news.jpg" height="270" width="385"></div>
                     </div>
                 </div>
             </div>
-
-        </nav>
-    </div>-->
+        </div>
+    </div>
     
     <main role="main" class="container">
         <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">

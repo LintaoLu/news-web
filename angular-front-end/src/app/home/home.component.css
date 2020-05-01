@@ -103,11 +103,6 @@ body {
   cursor: pointer;
 }
 
-
-.dropdown-menu {
-  min-width: 800px;
-}
-
 .round-img {
   border-radius: 50%;
   
@@ -155,4 +150,10 @@ ngb-pagination ::ng-deep .page-link:not(:disabled):not(.disabled):active:focus {
 	100% {
 		opacity: 1;
 	}
+}
+
+.mega-menu{
+  position: absolute;
+  width: 100%;
+  z-index: 99 !important;
 }
