@@ -17,7 +17,7 @@ import java.util.*;
 public class Utils {
 
     public static int newsPerList = 3, keyWordsPerNews = 3, keywordShortcut = 3;
-    public static int LRUSize = 100, FIFOSize = 20;
+    public static int LRUSize = 500, FIFOSize = 20;
     public static final String news_api_key, monkey_learn_api_key;
     public static final List<String> twitter_api_keys;
 

@@ -22,7 +22,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class PaperWebApplication {
 
     private Map<String, FIFO<List<News>>> news;
-    private LRU<String, Map<Integer, List<News>>> searchHistory;
+    private LRU<String, Pair<Long,  Map<Integer, List<News>>>> searchHistory;
     private List<Pair<String, String>> source;
     public final UpdateNewsService us;
     public final KeyWordExtractionService ks;
@@ -63,11 +63,12 @@ public class PaperWebApplication {
         System.out.println(keyword);
         if (basicNewsTypes.contains(keyword)) list = news.get(keyword).get(id);
         else {
-            if (!searchHistory.containsKey(keyword)) {
+            if (!searchHistory.containsKey(keyword) ||
+                    System.currentTimeMillis() - searchHistory.get(keyword).getKey() > Utils.updatePeriod) {
                 Map<Integer, List<News>> thisNews = Utils.parseNewsJson(getNewsJson(keyword));
-                searchHistory.set(keyword, thisNews);
+                searchHistory.set(keyword, new Pair<>(System.currentTimeMillis(), thisNews));
             }
-            list = searchHistory.get(keyword).get(id);
+            list = searchHistory.get(keyword).getValue().get(id);
         }
         return list == null ? new LinkedList<>() : list;
     }
@@ -100,8 +101,6 @@ public class PaperWebApplication {
     }
 
     public Map<String, FIFO<List<News>>> getNews() { return news; }
-
-    public LRU<String, Map<Integer, List<News>>> getSearchHistory() { return searchHistory; }
 
     public static void main(String[] args) {
         SpringApplication.run(PaperWebApplication.class, args);
