@@ -105,14 +105,6 @@ public class PaperWebApplication {
         return source;
     }
 
-    @GetMapping("/getSearchId")
-    @ResponseBody
-    public String getSearchId(){
-        JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("searchId", Utils.userId.getAndIncrement());
-        return jsonObject.toString();
-    }
-
     @GetMapping("/getSuggestions")
     @ResponseBody
     public List<String> getSuggestions(@RequestParam String content){
