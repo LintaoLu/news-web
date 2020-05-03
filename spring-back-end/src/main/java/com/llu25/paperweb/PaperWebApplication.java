@@ -115,8 +115,8 @@ public class PaperWebApplication {
 
     @GetMapping("/getSuggestions")
     @ResponseBody
-    public List<String> getSuggestions(@RequestParam String content, @RequestParam int searchId){
-        return as.search(searchId, content);
+    public List<String> getSuggestions(@RequestParam String content){
+        return as.search(content);
     }
 
     public Map<String, FIFO<List<News>>> getNews() { return news; }

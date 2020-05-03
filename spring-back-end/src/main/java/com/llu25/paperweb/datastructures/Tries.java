@@ -1,6 +1,7 @@
 package com.llu25.paperweb.datastructures;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -30,14 +31,14 @@ public class Tries {
         }
     }
 
-    public List<String> getSuggestions(String str, Pair<String, Tries.TriesNode> pair) {
-        TriesNode triesNode = pair.getValue();
+    public List<String> getSuggestions(String str) {
+        TriesNode triesNode = root;
+        if (str.charAt(str.length()-1) == '^')
+            str = str.substring(0, str.length()-1);
         for (char c : str.toCharArray()) {
-            if (!triesNode.next.containsKey(c)) break;
+            if (!triesNode.next.containsKey(c)) return new LinkedList<>();
             triesNode = triesNode.next.get(c);
         }
-        pair.setKey(pair.getKey() + str);
-        pair.setValue(triesNode);
         return triesNode.getWords();
     }
 
