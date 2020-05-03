@@ -14,6 +14,7 @@ export class HomeComponent implements OnInit {
   finished = false;
   pageSize = 3;
   isCollapsed = true;
+  suggestions = [];
 
   constructor(private newsService: NewsService) { }
 
@@ -82,6 +83,14 @@ export class HomeComponent implements OnInit {
           this.source.push(component);
         }
         this.source.push([]);
+      });
+  }
+
+  public getSuggestions(content: string) {
+    this.suggestions = [];
+    this.newsService.getSuggestions(content).subscribe(
+      data => {
+        this.suggestions = this.suggestions.concat(data);
       });
   }
 }

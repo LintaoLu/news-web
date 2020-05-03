@@ -19,4 +19,8 @@ export class NewsService {
   public getSource(content:any) {
     return this.http.get('https://lintaolu.com/getSource');
   }
+
+  public getSuggestions(content:any) {
+    return this.http.get('https://lintaolu.com/getSuggestions?content=' + content);
+  }
 }
