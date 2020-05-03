@@ -19,5 +19,4 @@ public class AutoCompleteService {
     public void addWord(String str) {
         tries.addWord(str);
     }
-
 }
