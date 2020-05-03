@@ -1,7 +1,5 @@
 package com.llu25.paperweb;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.llu25.paperweb.datastructures.FIFO;
 import com.llu25.paperweb.datastructures.LRU;
 import com.llu25.paperweb.datastructures.Pair;
