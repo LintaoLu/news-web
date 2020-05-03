@@ -25,12 +25,4 @@ public class Pair<Item1, Item2> {
     public void setValue(Item2 value) {
         this.value = value;
     }
-
-    @Override
-    public String toString() {
-        return "Pair{" +
-                "key=" + key +
-                ", value=" + value +
-                '}';
-    }
 }

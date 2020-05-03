@@ -87,7 +87,7 @@ export class HomeComponent implements OnInit {
   }
 
   public getSuggestions(content: string) {
-    this.newsService.getSuggestions(content).subscribe(
+    this.newsService.getSuggestions(content.toLowerCase).subscribe(
       data => {
         this.suggestions = [];
         this.suggestions = this.suggestions.concat(data);

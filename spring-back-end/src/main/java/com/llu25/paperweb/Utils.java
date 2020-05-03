@@ -13,7 +13,6 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import java.io.*;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class Utils {
 
@@ -22,7 +21,7 @@ public class Utils {
     public static final String news_api_key, monkey_learn_api_key;
     public static final List<String> twitter_api_keys;
 
-    public static long updatePeriod = 7200000; //120 Min
+    public static long updatePeriod = 9000000 ; // 2.5h
 
     static {
         news_api_key = readAPIKey("news_api_key.txt").get(0);
