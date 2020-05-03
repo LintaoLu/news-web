@@ -1,8 +1,11 @@
 package com.llu25.paperweb;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.llu25.paperweb.datastructures.FIFO;
 import com.llu25.paperweb.datastructures.LRU;
 import com.llu25.paperweb.datastructures.Pair;
+import com.llu25.paperweb.services.AutoCompleteService;
 import com.llu25.paperweb.services.KeyWordExtractionService;
 import com.llu25.paperweb.services.TwitterService;
 import com.llu25.paperweb.services.UpdateNewsService;
@@ -27,6 +30,7 @@ public class PaperWebApplication {
     public final UpdateNewsService us;
     public final KeyWordExtractionService ks;
     public final TwitterService ts;
+    public final AutoCompleteService as;
     public final Set<String> basicNewsTypes, sourceId;
 
     public PaperWebApplication() throws IOException {
@@ -44,6 +48,7 @@ public class PaperWebApplication {
         us = new UpdateNewsService(this);
         ks = new KeyWordExtractionService();
         ts = new TwitterService();
+        as = new AutoCompleteService();
         // start update services
         Timer timer = new Timer();
         timer.schedule(us, 0, Utils.updatePeriod);
@@ -98,6 +103,20 @@ public class PaperWebApplication {
     @ResponseBody
     public List<Pair<String, String>> getSource(){
         return source;
+    }
+
+    @GetMapping("/getSearchId")
+    @ResponseBody
+    public String getSearchId(){
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("searchId", Utils.userId.getAndIncrement());
+        return jsonObject.toString();
+    }
+
+    @GetMapping("/getSuggestions")
+    @ResponseBody
+    public List<String> getSuggestions(@RequestParam String content, @RequestParam int searchId){
+        return as.search(searchId, content);
     }
 
     public Map<String, FIFO<List<News>>> getNews() { return news; }

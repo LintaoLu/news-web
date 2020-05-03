@@ -13,11 +13,13 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import java.io.*;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Utils {
 
-    public static int newsPerList = 3, keyWordsPerNews = 3, keywordShortcut = 3;
-    public static int LRUSize = 500, FIFOSize = 20;
+    public static int newsPerList = 3, keyWordsPerNews = 3, keywordShortcut = 3,
+            LRUSize = 500, FIFOSize = 20, autocompleteNum = 10;
+    public static AtomicInteger userId = new AtomicInteger(0);
     public static final String news_api_key, monkey_learn_api_key;
     public static final List<String> twitter_api_keys;
 
