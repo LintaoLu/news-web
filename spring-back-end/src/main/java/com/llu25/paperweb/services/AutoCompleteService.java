@@ -13,15 +13,11 @@ public class AutoCompleteService {
     }
 
     public List<String> search(String str) {
-        List<String> res = tries.getSuggestions(str);
-        if (str.charAt(str.length()-1) == '^') {
-            tries.addWord(str.substring(0, str.length()-1));
-        }
-        return res;
+        return tries.getSuggestions(str);
     }
 
-    public static void main(String[] args) {
-        AutoCompleteService as = new AutoCompleteService();
-        System.out.println(as.search("a"));
+    public void addWord(String str) {
+        tries.addWord(str);
     }
+
 }

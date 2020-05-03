@@ -19,8 +19,6 @@ public class Tries {
 
     public void addWord(String word) {
         TriesNode curr = root;
-        if (word.charAt(word.length()-1) == '^')
-            word = word.substring(0, word.length()-1);
         for (int i = 0; i < word.length(); i++) {
             char c = word.charAt(i);
             if (!curr.getNext().containsKey(c)) {
@@ -33,8 +31,6 @@ public class Tries {
 
     public List<String> getSuggestions(String str) {
         TriesNode triesNode = root;
-        if (str.charAt(str.length()-1) == '^')
-            str = str.substring(0, str.length()-1);
         for (char c : str.toCharArray()) {
             if (!triesNode.next.containsKey(c)) return new LinkedList<>();
             triesNode = triesNode.next.get(c);

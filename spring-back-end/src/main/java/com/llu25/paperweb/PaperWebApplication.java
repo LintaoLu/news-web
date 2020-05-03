@@ -66,6 +66,8 @@ public class PaperWebApplication {
         System.out.println(keyword);
         if (basicNewsTypes.contains(keyword)) list = news.get(keyword).get(id);
         else {
+            // add this keyword to autocomplete service
+            as.addWord(keyword);
             if (!searchHistory.containsKey(keyword) ||
                     System.currentTimeMillis() - searchHistory.get(keyword).getKey() > Utils.updatePeriod) {
                 Map<Integer, List<News>> thisNews = Utils.parseNewsJson(getNewsJson(keyword));
