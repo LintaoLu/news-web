@@ -14,6 +14,7 @@ export class HomeComponent implements OnInit {
   finished = false;
   isCollapsed = true;
   suggestions = [];
+  mode = 'news';
 
   constructor(private newsService: NewsService) { }
 
@@ -45,6 +46,7 @@ export class HomeComponent implements OnInit {
     this.finished = false;
     this.getNews();
     this.isCollapsed = true;
+    this.mode = 'news';
   }
 
   private loadSource() {
@@ -70,5 +72,9 @@ export class HomeComponent implements OnInit {
         this.suggestions = [];
         this.suggestions = this.suggestions.concat(data);
       });
+  }
+
+  public changeMode(mode: string) {
+    this.mode = mode;
   }
 }

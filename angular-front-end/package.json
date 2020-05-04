@@ -11,6 +11,9 @@
   },
   "private": true,
   "dependencies": {
+    "@amcharts/amcharts4": "^4.9.19",
+    "@amcharts/amcharts4-fonts": "^4.0.1",
+    "@amcharts/amcharts4-geodata": "^4.1.14",
     "@angular/animations": "~9.1.1",
     "@angular/common": "~9.1.1",
     "@angular/compiler": "~9.1.1",
@@ -21,7 +24,6 @@
     "@angular/platform-browser-dynamic": "~9.1.1",
     "@angular/router": "~9.1.1",
     "@ng-bootstrap/ng-bootstrap": "^6.0.3",
-    "@syncfusion/ej2-angular-maps": "^18.1.43",
     "bootstrap": "^4.4.1",
     "ngx-bootstrap": "^5.6.1",
     "ngx-infinite-scroll": "^8.0.2",

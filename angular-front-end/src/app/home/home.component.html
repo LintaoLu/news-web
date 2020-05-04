@@ -51,7 +51,7 @@
             <a class="nav-link myClickableThingy" (click)="reset('science')">Science</a>
             <a class="nav-link myClickableThingy" (click)="reset('sports')">Sports</a>
             <a class="nav-link myClickableThingy" (click)="reset('technology')">Technology</a>
-            <a class="nav-link myClickableThingy" routerLink="/profile">Map</a>
+            <a class="nav-link myClickableThingy" (click)="changeMode('map')">Map</a>
             <a class="nav-link myClickableThingy dropdown-toggle" (click)="isCollapsed = !isCollapsed;"
                 [attr.aria-expanded]="!isCollapsed" aria-controls="allNews">More</a>
         </nav>
@@ -83,7 +83,8 @@
             </div>
         </div>
     </div>
-    
-    <app-news [news]="news" [finished]="finished"></app-news>
-    
+
+    <app-news *ngIf="mode=='news'" [news]="news" [finished]="finished"></app-news>
+    <app-map class="frame" *ngIf="mode=='map'" [news]="news"></app-map>
+
 </body>

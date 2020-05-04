@@ -12,7 +12,7 @@ export class NewsComponent implements OnInit {
   @Input() news: any;
   @Input() finished: boolean;
 
-  pageSize = 3;
+  pageSize = 3; 
   
   constructor(private newsService: NewsService, private home: HomeComponent) { }
 

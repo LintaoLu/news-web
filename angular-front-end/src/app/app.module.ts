@@ -12,9 +12,6 @@ import { ProfileComponent } from './profile/profile.component';
 import { HomeComponent } from './home/home.component';
 import { NewsComponent } from './news/news.component';
 import { MapComponent } from './map/map.component';
-import { MapsModule } from '@syncfusion/ej2-angular-maps';
-import { LegendService, MarkerService, MapsTooltipService, DataLabelService, 
-  BubbleService, NavigationLineService, SelectionService, AnnotationsService, ZoomService } from '@syncfusion/ej2-angular-maps';
 
 @NgModule({
   declarations: [
@@ -32,19 +29,8 @@ import { LegendService, MarkerService, MapsTooltipService, DataLabelService,
     InfiniteScrollModule,
     NgbModule,
     FormsModule,
-    MapsModule
   ],
-  providers: [
-    NewsService,
-    LegendService, 
-    MarkerService, 
-    MapsTooltipService, 
-    DataLabelService, 
-    BubbleService, 
-    NavigationLineService, 
-    SelectionService, 
-    AnnotationsService, 
-    ZoomService],
+  providers: [NewsService,],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
