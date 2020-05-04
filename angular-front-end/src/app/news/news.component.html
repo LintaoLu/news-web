@@ -1,0 +1,91 @@
+<main role="main" class="container">
+    <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
+        <img class="mr-3" src="assets/images/Profile.png" alt="" width="48" height="48">
+        <div class="lh-100">
+            <h6 class="mb-0 text-white lh-100">Anonymous</h6>
+            <small>Since 2020</small>
+        </div>
+    </div>
+
+    <div *ngFor = "let e of news">
+        <div class="frame my-3 p-3 bg-white rounded box-shadow">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-4 align-self-center">
+                        <img src="{{e.key.urlToImage}}" class="img-fluid rounded zoom">
+                    </div>
+
+                    <div class="col pl-4 pr-4 align-self-center">
+                        <div class="row pt-3"><h4>{{e.key.title}}</h4></div>
+                        <div class="row"><p class="text-muted font-italic">{{e.key.author}} {{e.key.publishedAt}}</p></div>
+                        <div class="row"><p class="text-justify">{{e.key.description}}<a class="pl-2" (click)="goToLink(e.key.url)"> <small class="myClickableThingy text-primary">Read more</small></a></p></div>
+                        <div class="row float-right pr-4">  
+                            <p>
+                                <button type="button" class="btn btn-outline-dark" (click)="e.isCollapsed = !e.isCollapsed; loadTweets(e)"
+                                        [attr.aria-expanded]="!e.isCollapsed" aria-controls="example">
+                                  <small>Opinions</small>
+                                </button>
+                              </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="example" [ngbCollapse]="e.isCollapsed">
+            <div class="card">
+                <div class="card-body">
+                    <div *ngIf="!e.hasTweet" class="text-center">
+                        <div class="spinner-border" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+
+                    <div *ngIf="e.hasTweet" class="container">
+                        <div *ngFor="let tweet of e.tweets | slice: (e.page-1) * pageSize : (e.page-1) * pageSize + pageSize">
+                            <div class="fade-in my-1 p-1 bg-white rounded box-shadow">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-md-1 align-self-center">
+                                            <img src="{{tweet.user.profileImageURL}}" class="round-img" height="40" width="40">
+                                        </div>
+                                        <div class="col">
+                                            <p class="align-middle"><small class="font-weight-bold">@{{tweet.user.name}}: </small><small class="pl-1">{{tweet.text}}</small></p>
+                                        </div> 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div *ngIf="e.hasTweet" class="row pt-2">
+                        <div class="col-md-9"><p class="text-right font-italic font-weight-bold"><small>NLP keywords extraction and twitter API seach</small></p></div>
+                        <div class="col justify-content-center pl-3"> 
+                            <ngb-pagination [(page)]="e.page" [pageSize]="pageSize" [collectionSize]="e.tweets.length" size="sm"></ngb-pagination>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div 
+        infiniteScroll 
+        [infiniteScrollDistance]="2"
+        [infiniteScrollThrottle]="1000"
+        (scrolled)="onScroll()">
+    </div>
+    
+    <div *ngIf="!finished" class="text-center">
+        <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+
+    <div class="pt-2 pb-5">
+        <button *ngIf="finished" type="button" class="btn btn-outline-dark btn-lg btn-block" (click)="backToTop()">
+            No more news!
+        </button>
+    </div>
+
+</main>

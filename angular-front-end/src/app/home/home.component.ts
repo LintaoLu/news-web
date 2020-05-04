@@ -12,7 +12,6 @@ export class HomeComponent implements OnInit {
   type: string;
   id = 1;
   finished = false;
-  pageSize = 3;
   isCollapsed = true;
   suggestions = [];
 
@@ -25,11 +24,7 @@ export class HomeComponent implements OnInit {
     this.loadSource();
   }
 
-  onScroll() {
-    this.getNews();
-  }
-
-  private getNews() {
+  public getNews() {
     if (this.finished) return;
 
     this.newsService.getNews(this.type, this.id++).subscribe(
@@ -52,23 +47,6 @@ export class HomeComponent implements OnInit {
     this.isCollapsed = true;
   }
 
-  public backToTop() {
-    window.scroll(0, 0);
-  }
-
-  public loadTweets(e:any) {
-    if (e.hasTweet) return;
-    this.newsService.getTweets(e.key.title).subscribe(
-      data=> {
-        e.tweets = e.tweets.concat(data);
-        e.hasTweet = true;
-      });
-  }
-
-  public goToLink(url: string){
-    window.open(url);
-  }
-
   private loadSource() {
     this.newsService.getSource('a').subscribe(
       data=> {
@@ -87,7 +65,7 @@ export class HomeComponent implements OnInit {
   }
 
   public getSuggestions(content: string) {
-    this.newsService.getSuggestions(content.toLowerCase).subscribe(
+    this.newsService.getSuggestions(content).subscribe(
       data => {
         this.suggestions = [];
         this.suggestions = this.suggestions.concat(data);

@@ -10,12 +10,19 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { ProfileComponent } from './profile/profile.component';
 import { HomeComponent } from './home/home.component';
+import { NewsComponent } from './news/news.component';
+import { MapComponent } from './map/map.component';
+import { MapsModule } from '@syncfusion/ej2-angular-maps';
+import { LegendService, MarkerService, MapsTooltipService, DataLabelService, 
+  BubbleService, NavigationLineService, SelectionService, AnnotationsService, ZoomService } from '@syncfusion/ej2-angular-maps';
 
 @NgModule({
   declarations: [
     AppComponent,
     ProfileComponent,
     HomeComponent,
+    NewsComponent,
+    MapComponent
   ],
   imports: [
     BrowserModule,
@@ -24,9 +31,20 @@ import { HomeComponent } from './home/home.component';
     HttpClientModule,
     InfiniteScrollModule,
     NgbModule,
-    FormsModule
+    FormsModule,
+    MapsModule
   ],
-  providers: [NewsService],
+  providers: [
+    NewsService,
+    LegendService, 
+    MarkerService, 
+    MapsTooltipService, 
+    DataLabelService, 
+    BubbleService, 
+    NavigationLineService, 
+    SelectionService, 
+    AnnotationsService, 
+    ZoomService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
