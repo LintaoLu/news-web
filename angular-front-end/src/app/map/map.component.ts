@@ -63,8 +63,9 @@ export class MapComponent implements OnInit {
 
     // Add hit events
     polygonSeries.mapPolygons.template.events.on("hit", function(ev) {
-      let val: any; val = ev.target.dataItem.dataContext;
-      self.getCountryNews(val.name);
+      let val: any;
+      val = ev.target.dataItem.dataContext;
+      self.getCountryNews(val.id);
     });
   }
 
