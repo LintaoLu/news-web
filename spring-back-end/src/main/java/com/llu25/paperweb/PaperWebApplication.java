@@ -48,11 +48,11 @@ public class PaperWebApplication {
         ts = new TwitterService();
         as = new AutoCompleteService();
         // countries
-        String[] allCountries = {"ar", "au", "at", "be", "br", "bg", "ca", "cn", "co", "cu",
+        String[] allCountries = { "ar", "au", "at", "be", "br", "bg", "ca", "cn", "co", "cu",
                 "cz", "eg", "fr", "de", "gr", "hk", "hu", "in", "id", "ie", "il", "it", "jp",
-                "lv", "lt", "my", "mx", "ma", "nl", "nz", "ng", "no",
-                "ph", "pl", "pt", "ro", "ru", "sa", "rs", "sg", "sk", "si", "za", "kr", "se",
-                "ch", "tw", "th", "tr", "ae", "ua", "gb", "us", "ve"};
+                "lv", "lt", "my", "mx", "ma", "nl", "nz", "ng", "no", "ph", "pl", "pt", "ro",
+                "ru", "sa", "rs", "sg", "sk", "si", "za", "kr", "se", "ch", "tw", "th", "tr",
+                "ae", "ua", "gb", "us", "ve" };
         countries = new HashSet<>(Arrays.asList(allCountries));
         // start update services
         Timer timer = new Timer();
@@ -77,7 +77,14 @@ public class PaperWebApplication {
             if (!sourceId.contains(keyword)) as.addWord(keyword);
             if (!searchHistory.containsKey(keyword) ||
                     System.currentTimeMillis() - searchHistory.get(keyword).getKey() > Utils.updatePeriod) {
-                Map<Integer, List<News>> thisNews = Utils.parseNewsJson(getNewsJson(keyword));
+                Map<Integer, List<News>> thisNews = new LinkedHashMap<>();
+                if (keyword.equals("cn") || keyword.equals("hk")) {
+                    FIFO<List<News>> temp = new FIFO<>(Utils.FIFOSize);
+                    temp.append(Utils.parseNewsJson(getNewsJson("hk")));
+                    temp.append(Utils.parseNewsJson(getNewsJson("cn")));
+                    thisNews = temp.getMap();
+                }
+                else thisNews = Utils.parseNewsJson(getNewsJson(keyword));
                 searchHistory.set(keyword, new Pair<>(System.currentTimeMillis(), thisNews));
             }
             list = searchHistory.get(keyword).getValue().get(id);

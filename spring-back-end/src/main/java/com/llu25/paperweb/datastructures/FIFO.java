@@ -40,13 +40,4 @@ public class FIFO<Item> {
     public Map<Integer, Item> getMap() {
         return map;
     }
-
-    @Override
-    public String toString() {
-        return "FIFO{" +
-                "map=" + map +
-                ", CAPACITY=" + CAPACITY +
-                ", list=" + list +
-                '}';
-    }
 }
