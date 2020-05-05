@@ -77,13 +77,7 @@ public class PaperWebApplication {
             if (!sourceId.contains(keyword)) as.addWord(keyword);
             if (!searchHistory.containsKey(keyword) ||
                     System.currentTimeMillis() - searchHistory.get(keyword).getKey() > Utils.updatePeriod) {
-                Map<Integer, List<News>> thisNews = new LinkedHashMap<>();
-                if (keyword.equals("cn") || keyword.equals("hk") || keyword.equals("tw")) {
-                    thisNews.putAll(Utils.parseNewsJson(getNewsJson("cn")));
-                    thisNews.putAll(Utils.parseNewsJson(getNewsJson("hk")));
-                    thisNews.putAll(Utils.parseNewsJson(getNewsJson("tw")));
-                }
-                else  thisNews.putAll(Utils.parseNewsJson(getNewsJson(keyword)));
+                Map<Integer, List<News>> thisNews = Utils.parseNewsJson(getNewsJson(keyword));
                 searchHistory.set(keyword, new Pair<>(System.currentTimeMillis(), thisNews));
             }
             list = searchHistory.get(keyword).getValue().get(id);
