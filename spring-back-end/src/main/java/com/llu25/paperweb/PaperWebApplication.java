@@ -29,7 +29,7 @@ public class PaperWebApplication {
     public final KeyWordExtractionService ks;
     public final TwitterService ts;
     public final AutoCompleteService as;
-    public final Set<String> basicNewsTypes, sourceId;
+    public final Set<String> basicNewsTypes, sourceId, countries;
 
     public PaperWebApplication() throws IOException {
         news = new ConcurrentHashMap<>();
@@ -47,6 +47,13 @@ public class PaperWebApplication {
         ks = new KeyWordExtractionService();
         ts = new TwitterService();
         as = new AutoCompleteService();
+        // countries
+        String[] allCountries = {"ar", "au", "at", "be", "br", "bg", "ca", "cn", "co", "cu",
+                "cz", "eg", "fr", "de", "gr", "hk", "hu", "in", "id", "ie", "il", "it", "jp",
+                "lv", "lt", "my", "mx", "ma", "nl", "nz", "ng", "no",
+                "ph", "pl", "pt", "ro", "ru", "sa", "rs", "sg", "sk", "si", "za", "kr", "se",
+                "ch", "tw", "th", "tr", "ae", "ua", "gb", "us", "ve"};
+        countries = new HashSet<>(Arrays.asList(allCountries));
         // start update services
         Timer timer = new Timer();
         timer.schedule(us, 0, Utils.updatePeriod);
@@ -68,10 +75,15 @@ public class PaperWebApplication {
         else {
             // add this keyword to autocomplete service
             if (!sourceId.contains(keyword)) as.addWord(keyword);
-
             if (!searchHistory.containsKey(keyword) ||
                     System.currentTimeMillis() - searchHistory.get(keyword).getKey() > Utils.updatePeriod) {
-                Map<Integer, List<News>> thisNews = Utils.parseNewsJson(getNewsJson(keyword));
+                Map<Integer, List<News>> thisNews = new LinkedHashMap<>();
+                if (keyword.equals("cn") || keyword.equals("hk") || keyword.equals("tw")) {
+                    thisNews.putAll(Utils.parseNewsJson(getNewsJson("cn")));
+                    thisNews.putAll(Utils.parseNewsJson(getNewsJson("hk")));
+                    thisNews.putAll(Utils.parseNewsJson(getNewsJson("tw")));
+                }
+                else  thisNews.putAll(Utils.parseNewsJson(getNewsJson(keyword)));
                 searchHistory.set(keyword, new Pair<>(System.currentTimeMillis(), thisNews));
             }
             list = searchHistory.get(keyword).getValue().get(id);
@@ -86,6 +98,10 @@ public class PaperWebApplication {
         }
         else if (sourceId.contains(keyword)) {
             return Utils.doGet("http://newsapi.org/v2/top-headlines?sources=" +
+                    keyword + "&apiKey=" + Utils.news_api_key);
+        }
+        else if (countries.contains(keyword)) {
+            return Utils.doGet("http://newsapi.org/v2/top-headlines?country=" +
                     keyword + "&apiKey=" + Utils.news_api_key);
         }
         return Utils.doGet("https://newsapi.org/v2/everything?q=" + keyword +

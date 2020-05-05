@@ -19,8 +19,7 @@ export class HomeComponent implements OnInit {
   constructor(private newsService: NewsService) { }
 
   ngOnInit() {
-    this.type = localStorage.getItem('type');
-    if (this.type === null)  this.type = 'general';
+    this.type = 'general';
     this.getNews();
     this.loadSource();
   }

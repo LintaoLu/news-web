@@ -160,4 +160,5 @@ ngb-pagination ::ng-deep .page-link:not(:disabled):not(.disabled):active:focus {
 
 .wrapper {
     height: 75vh;
-  }
+    width: 80%;
+}

@@ -85,6 +85,6 @@
     </div>
 
     <app-news *ngIf="mode=='news'" [news]="news" [finished]="finished"></app-news>
-    <app-map class="frame" *ngIf="mode=='map'" [news]="news"></app-map>
+    <app-map *ngIf="mode=='map'"></app-map>
 
 </body>
