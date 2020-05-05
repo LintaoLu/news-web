@@ -70,7 +70,7 @@ export class MapComponent implements OnInit {
     });
 
     setTimeout(()=>{
-      this.loading = false;}, 1500);
+      this.loading = false;}, 500);
   }
 
   private getCountryNews(country: string) {
