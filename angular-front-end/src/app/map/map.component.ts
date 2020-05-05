@@ -23,13 +23,14 @@ export class MapComponent implements OnInit {
   set = new Set();
   countries = ["ar", "au", "at", "be", "br", "bg", "ca", "cn", "co", "cu", 
   "cz", "eg", "fr", "de", "gr", "hk", "hu", "in", "id", "ie", "il", "it", "jp", 
-  "lv", "lt", "my", "mx", "ma", "nl", "nz", "ng", "no", 
-    "ph", "pl", "pt", "ro", "ru", "sa", "rs", "sg", "sk", "si", "za", "kr", "se", 
-    "ch", "tw", "th", "tr", "ae", "ua", "gb", "us", "ve" ];
+  "lv", "lt", "my", "mx", "ma", "nl", "nz", "ng", "no", "ph", "pl", "pt", "ro", 
+  "ru", "sa", "rs", "sg", "sk", "si", "za", "kr", "se", "ch", "tw", "th", "tr", 
+  "ae", "ua", "gb", "us", "ve" ];
+  loading = true;
 
   constructor(private home:HomeComponent) { }
 
-  ngOnInit(): void { 
+  ngOnInit(): void {
 
     for (let str of this.countries) this.set.add(str);
     
@@ -67,6 +68,9 @@ export class MapComponent implements OnInit {
       val = ev.target.dataItem.dataContext;
       self.getCountryNews(val.id);
     });
+
+    setTimeout(()=>{
+      this.loading = false;}, 1500);
   }
 
   private getCountryNews(country: string) {
