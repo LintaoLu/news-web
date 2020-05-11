@@ -1,4 +1,4 @@
-@import "./fonts/font-awesome-4.7.0/css/font-awesome.min.css";
+@import "../fonts/font-awesome-4.7.0/css/font-awesome.min.css";
 
 
 .myClickableThingy {
@@ -57,17 +57,17 @@
 
 @font-face {
     font-family: Ubuntu-Regular;
-    src: url('./fonts/ubuntu/Ubuntu-Regular.ttf'); 
+    src: url('../fonts/ubuntu/Ubuntu-Regular.ttf'); 
   }
   
   @font-face {
     font-family: Ubuntu-Bold;
-    src: url('./fonts/ubuntu/Ubuntu-Bold.ttf'); 
+    src: url('../fonts/ubuntu/Ubuntu-Bold.ttf'); 
   }
   
   @font-face {
     font-family: JosefinSans-Bold;
-    src: url('./fonts/JosefinSans/JosefinSans-Bold.ttf'); 
+    src: url('../fonts/JosefinSans/JosefinSans-Bold.ttf'); 
   }
   
   
