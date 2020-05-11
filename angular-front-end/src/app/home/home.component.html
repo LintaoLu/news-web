@@ -11,21 +11,20 @@
                 <li class="nav-item active">
                     <a class="nav-link" routerLink="#">News</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Stock</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Account</a>
-                </li>
-                <li class="nav-item">
-                    <div ngbDropdown class="d-inline-block">
-                        <a class="nav-link myClickableThingy" id="dropdownBasic1" ngbDropdownToggle>Toggle dropdown</a>
-                        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                            <li ngbDropdownItem>Action - 1</li>
-                            <li ngbDropdownItem>Another Action</li>
-                            <li ngbDropdownItem>Something else is here</li>
+                <li *ngIf="!login" class="nav-item">
+                    <a class="nav-link myClickableThingy" (click)="open(content)">Login</a>
+                    <ng-template #content let-c="close" let-d="dismiss">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="modal-basic-title">log in</h4>
+                            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
                         </div>
-                    </div>
+                        <app-login></app-login>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-dark" (click)="c('Save click')">Save</button>
+                        </div>
+                    </ng-template>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" routerLink="/profile">Author</a>

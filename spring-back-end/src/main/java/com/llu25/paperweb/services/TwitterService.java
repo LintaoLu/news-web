@@ -1,10 +1,12 @@
 package com.llu25.paperweb.services;
 
 import com.llu25.paperweb.Utils;
+import org.springframework.stereotype.Service;
 import twitter4j.*;
 import twitter4j.conf.ConfigurationBuilder;
 import java.util.*;
 
+@Service
 public class TwitterService {
 
     private Twitter twitter;

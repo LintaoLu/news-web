@@ -10,11 +10,13 @@ import com.monkeylearn.MonkeyLearn;
 import com.monkeylearn.MonkeyLearnException;
 import com.monkeylearn.MonkeyLearnResponse;
 import org.apache.commons.lang3.SystemUtils;
+import org.springframework.stereotype.Service;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+@Service
 public class KeyWordExtractionService {
 
     private MonkeyLearn ml;

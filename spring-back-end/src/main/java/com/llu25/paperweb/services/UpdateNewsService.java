@@ -1,6 +1,6 @@
 package com.llu25.paperweb.services;
 import com.llu25.paperweb.datastructures.FIFO;
-import com.llu25.paperweb.News;
+import com.llu25.paperweb.components.News;
 import com.llu25.paperweb.PaperWebApplication;
 import com.llu25.paperweb.Utils;
 import java.io.IOException;

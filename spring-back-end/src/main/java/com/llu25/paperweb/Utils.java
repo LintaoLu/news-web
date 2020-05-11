@@ -4,6 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.llu25.paperweb.components.News;
 import com.llu25.paperweb.datastructures.Pair;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -75,7 +76,7 @@ public class Utils {
             if (title.equals("No title") && description.equals("")) continue;
 
             if (!title.equals("No title")) text .add(title);
-            else text .add(description);
+            else text.add(description);
 
             list.add(new News(counter, source, author, title, description, url, urlToImage, publishedAt, new ArrayList<>(), new ArrayList<>()));
             counter++;

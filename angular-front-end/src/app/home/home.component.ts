@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { NewsService } from '../news.service';
+import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.css'],
+  // add NgbModalConfig and NgbModal to the component providers
+  providers: [NgbModalConfig, NgbModal]
 })
 export class HomeComponent implements OnInit {
   news = [];
@@ -15,8 +18,13 @@ export class HomeComponent implements OnInit {
   isCollapsed = true;
   suggestions = [];
   mode = 'news';
+  login = false;
 
-  constructor(private newsService: NewsService) { }
+  constructor(private newsService: NewsService, config: NgbModalConfig, private modalService: NgbModal) {
+    // customize default values of modals used by this component tree
+    config.backdrop = 'static';
+    config.keyboard = false;
+   }
 
   ngOnInit() {
     this.type = 'general';
@@ -75,5 +83,9 @@ export class HomeComponent implements OnInit {
 
   public changeMode(mode: string) {
     this.mode = mode;
+  }
+
+  open(content) {
+    this.modalService.open(content); 
   }
 }

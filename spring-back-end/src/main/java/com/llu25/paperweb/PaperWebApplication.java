@@ -1,5 +1,6 @@
 package com.llu25.paperweb;
 
+import com.llu25.paperweb.components.News;
 import com.llu25.paperweb.datastructures.FIFO;
 import com.llu25.paperweb.datastructures.LRU;
 import com.llu25.paperweb.datastructures.Pair;
@@ -8,6 +9,7 @@ import com.llu25.paperweb.services.KeyWordExtractionService;
 import com.llu25.paperweb.services.TwitterService;
 import com.llu25.paperweb.services.UpdateNewsService;
 import com.monkeylearn.MonkeyLearnException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +25,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class PaperWebApplication {
 
     private Map<String, FIFO<List<News>>> news;
-    private LRU<String, Pair<Long,  Map<Integer, List<News>>>> searchHistory;
+    private LRU<String, Pair<Long, Map<Integer, List<News>>>> searchHistory;
     private List<Pair<String, String>> source;
     public final UpdateNewsService us;
     public final KeyWordExtractionService ks;
@@ -31,7 +33,8 @@ public class PaperWebApplication {
     public final AutoCompleteService as;
     public final Set<String> basicNewsTypes, sourceId, countries;
 
-    public PaperWebApplication() throws IOException {
+    @Autowired
+    public PaperWebApplication(KeyWordExtractionService ks, TwitterService ts, AutoCompleteService as) throws IOException {
         news = new ConcurrentHashMap<>();
         // get basic news
         String[] types = {"general", "science", "business", "sports", "health", "technology", "entertainment"};
@@ -42,11 +45,6 @@ public class PaperWebApplication {
         source = Utils.getSource();
         sourceId = new HashSet<>();
         for (Pair<String, String> pair : source) sourceId.add(pair.getKey());
-        // initialize services
-        us = new UpdateNewsService(this);
-        ks = new KeyWordExtractionService();
-        ts = new TwitterService();
-        as = new AutoCompleteService();
         // countries
         String[] allCountries = { "ar", "au", "at", "be", "br", "bg", "ca", "cn", "co", "cu",
                 "cz", "eg", "fr", "de", "gr", "hk", "hu", "in", "id", "ie", "il", "it", "jp",
@@ -54,9 +52,12 @@ public class PaperWebApplication {
                 "ru", "sa", "rs", "sg", "sk", "si", "za", "kr", "se", "ch", "tw", "th", "tr",
                 "ae", "ua", "gb", "us", "ve" };
         countries = new HashSet<>(Arrays.asList(allCountries));
+        // initialize services
+        this.ks = ks; this.ts = ts; this.as = as;
+        us = new UpdateNewsService(this);
         // start update services
         Timer timer = new Timer();
-        timer.schedule(us, 0, Utils.updatePeriod);
+        timer.schedule(this.us, 0, Utils.updatePeriod);
     }
 
     @GetMapping("/getNews")
@@ -106,7 +107,7 @@ public class PaperWebApplication {
                     keyword + "&apiKey=" + Utils.news_api_key);
         }
         return Utils.doGet("https://newsapi.org/v2/everything?q=" + keyword +
-                "&language=en&sortBy=publishedAt&apiKey=" + Utils.news_api_key);
+                "&language=en&sortBy=popularity&apiKey=" + Utils.news_api_key);
     }
 
     @GetMapping("/getTweets")

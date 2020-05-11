@@ -1,4 +1,4 @@
-package com.llu25.paperweb;
+package com.llu25.paperweb.components;
 
 import java.util.ArrayList;
 import java.util.List;
