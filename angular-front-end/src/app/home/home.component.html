@@ -15,15 +15,12 @@
                     <a class="nav-link myClickableThingy" (click)="open(content)">Login</a>
                     <ng-template #content let-c="close" let-d="dismiss">
                         <div class="modal-header">
-                            <h4 class="modal-title" id="modal-basic-title">log in</h4>
+                            <h4 class="modal-title" id="modal-basic-title">Welcome!</h4>
                             <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <app-login></app-login>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-dark" (click)="c('Save click')">Save</button>
-                        </div>
                     </ng-template>
                 </li>
                 <li class="nav-item">

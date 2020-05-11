@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 
 @Component({
@@ -8,16 +8,18 @@ import { AuthService } from '../auth.service';
 })
 export class LoginComponent implements OnInit {
 
-  @Input() login: boolean;
-
   authError: any;
+  loginMode = true;
 
   constructor(private auth: AuthService) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
   createUser(frm) {
     this.auth.createrUser(frm.value);
+  }
+
+  changeMode() {
+    this.loginMode = !this.loginMode;
   }
 }
