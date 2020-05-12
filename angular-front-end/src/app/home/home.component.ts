@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NewsService } from '../news.service';
-import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalConfig, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-home',
@@ -19,6 +19,7 @@ export class HomeComponent implements OnInit {
   suggestions = [];
   mode = 'news';
   login = false;
+  modalReference: NgbModalRef;
 
   constructor(private newsService: NewsService, config: NgbModalConfig, private modalService: NgbModal) {
     // customize default values of modals used by this component tree
@@ -86,6 +87,6 @@ export class HomeComponent implements OnInit {
   }
 
   open(content) {
-    this.modalService.open(content); 
+    this.modalReference = this.modalService.open(content);this.modalService.open(content); 
   }
 }

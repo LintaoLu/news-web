@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../auth.service';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-login',
@@ -8,16 +7,13 @@ import { AuthService } from '../auth.service';
 })
 export class LoginComponent implements OnInit {
 
-  authError: any;
+  @Input() modalReference: any;
+
   loginMode = true;
 
-  constructor(private auth: AuthService) {}
+  constructor() {}
 
   ngOnInit(): void { }
-
-  createUser(frm) {
-    this.auth.createrUser(frm.value);
-  }
 
   changeMode() {
     this.loginMode = !this.loginMode;
