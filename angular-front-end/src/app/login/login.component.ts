@@ -14,11 +14,7 @@ export class LoginComponent implements OnInit {
 
   constructor(private auth: AuthService, private homeComponent: HomeComponent) {}
 
-  ngOnInit(): void { 
-    this.auth.eventAuthError$.subscribe(
-      (data) => { this.authError = data; }
-    );
-  }
+  ngOnInit(): void { }
 
   changeMode() {
     this.loginMode = !this.loginMode;
@@ -30,6 +26,10 @@ export class LoginComponent implements OnInit {
         this.homeComponent.closeModule();
         this.homeComponent.updateProfile();
       }}
+    );
+
+    this.auth.eventAuthError$.subscribe(
+      (data) => { this.authError = data; }
     );
   }
 }
