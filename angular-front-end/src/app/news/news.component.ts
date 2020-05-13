@@ -10,7 +10,6 @@ import { HomeComponent } from '../home/home.component';
 export class NewsComponent implements OnInit {
 
   @Input() news: any;
-  @Input() user: any;
   @Input() finished: boolean;
 
   pageSize = 3; 

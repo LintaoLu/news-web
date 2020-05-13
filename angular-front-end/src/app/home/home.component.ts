@@ -98,9 +98,12 @@ export class HomeComponent implements OnInit {
     this.modalReference.close();
   }
 
-  updateProfile(user){
-    this.user = user;
-    if (user) this.isLogin = true;
+  updateProfile(){
+    this.auth.getUserState().subscribe(
+      user => {
+        this.user = user;
+        if (user) this.isLogin = true;
+      });
   }
 
   logout(){
