@@ -13,6 +13,7 @@ export class AuthService {
   eventAuthError$ = this.eventAuthError.asObservable();
   newUser: any;
   error: boolean;
+  isLogin = false;
 
   constructor(private afAuth: AngularFireAuth, private db: AngularFirestore, private router: Router) { }
 
@@ -38,11 +39,27 @@ export class AuthService {
     return this.db.doc(`Users/${userCredential.user.uid}`).set({
       email: this.newUser.email,
       name: this.newUser.username,
-      password: this.newUser.password
+    });
+  }
+
+  login(email: string, password: string) {
+    return this.afAuth.signInWithEmailAndPassword(email, password).
+    catch(error => { 
+      this.error = true;
+      this.eventAuthError.next(error)
+    }).then( userCredential => {
+      if (userCredential) {
+        this.isLogin = true;
+      }
     });
   }
 
   logout() {
+    this.isLogin = false;
     return this.afAuth.signOut();
+  }
+
+  getUserState() {
+    return this.afAuth.authState;
   }
 }

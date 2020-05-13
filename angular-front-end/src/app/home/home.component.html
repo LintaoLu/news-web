@@ -2,16 +2,20 @@
 
     <nav class="navbar navbar-expand-md fixed-top navbar-dark bg-dark">
         <a class="navbar-brand" href="#">Demo </a>
-        <button class="navbar-toggler p-0 border-0" type="button" data-toggle="offcanvas">
+        <button class="navbar-toggler d-lg-none" type="button" data-toggle="offcanvas" (click)="isNavbarCollapsed = !isNavbarCollapsed" 
+            [attr.aria-expanded]="!isNavbarCollapsed" aria-controls="navbarsExampleDefault">
             <span class="navbar-toggler-icon"></span>
         </button>
     
-        <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault" [ngbCollapse]="isNavbarCollapsed">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" routerLink="#">News</a>
+                    <a class="nav-link" (click)="isNavbarCollapsed = !isNavbarCollapsed; reset('general');">News</a>
                 </li>
-                <li *ngIf="!login" class="nav-item">
+                <li class="nav-item">
+                    <a class="nav-link" (click)="isNavbarCollapsed = !isNavbarCollapsed; changeMode('profile');">Author</a>
+                </li>
+                <li *ngIf="!isLogin" (click)="isNavbarCollapsed = !isNavbarCollapsed" class="nav-item">
                     <a class="nav-link myClickableThingy" (click)="open(content)">Login</a>
                     <ng-template #content let-c="close" let-d="dismiss">
                         <div class="modal-header">
@@ -20,11 +24,11 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <app-login [modalReference]="modalReference"></app-login>
+                        <app-login></app-login>
                     </ng-template>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" routerLink="/profile">Author</a>
+                <li *ngIf="isLogin" class="nav-item">
+                    <a class="nav-link myClickableThingy" (click)="logout()">Logout</a>
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0">
@@ -80,7 +84,8 @@
         </div>
     </div>
 
-    <app-news *ngIf="mode=='news'" [news]="news" [finished]="finished"></app-news>
+    <app-news *ngIf="mode=='news'" [news]="news" [user]="user" [finished]="finished"></app-news>
     <app-map *ngIf="mode=='map'"></app-map>
+    <app-profile *ngIf="mode=='profile'"></app-profile>
 
 </body>

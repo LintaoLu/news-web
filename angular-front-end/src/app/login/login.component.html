@@ -1,16 +1,22 @@
 <ng-container *ngIf="loginMode">
     <div class="modal-body p-3 fade-in">
         <div class="container">
-            <form class="login100-form validate-form">
+            <div class="row" *ngIf="authError">
+                <div class="col-12 alert alert-danger p-2">
+                    {{ authError?.message }}
+                </div>
+            </div>
+            <div *ngIf="authError" class="pt-3"></div>
+            <form #loginForm="ngForm" (ngSubmit)="login(loginForm)" class="login100-form validate-form">
                 <div class="wrap-input100 validate-input" data-validate="Please enter username">
-                    <input class="input100" type="email" name="email" placeholder="Email">
+                    <input class="input100" type="email" name="email" placeholder="Email" ngModel>
                     <span class="focus-input100"></span>
                 </div>
         
                 <div class="pt-3"></div>
         
                 <div class="wrap-input100 validate-input" data-validate = "Please enter password">
-                    <input class="input100" type="password" name="pass" placeholder="Password">
+                    <input class="input100" type="password" name="password" placeholder="Password" ngModel>
                     <span class="focus-input100"></span>
                 </div>
         

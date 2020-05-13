@@ -13,6 +13,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class SignupComponent implements OnInit {
   authError = null;
+  error = null;
 
   constructor(private loginComponent: LoginComponent, private auth: AuthService) { }
 
@@ -27,6 +28,13 @@ export class SignupComponent implements OnInit {
   }
 
   createUser(frm) {
+    let pass = frm.value.password;
+    let confirmPassword = frm.value.confirmPassword;
+    if (pass !== confirmPassword) {
+      this.error = "Your password and confirmation password do not match."
+      return;
+    }
+    this.error = null;
     this.auth.createrUser(frm.value)
       .then(() => {if (!this.auth.error) {
         this.changeMode();
