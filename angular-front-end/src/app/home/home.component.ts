@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit {
   suggestions = [];
   mode = 'news';
   isLogin = false;
-  user: any;
+  userName: any;
   modalReference: NgbModalRef;
   isNavbarCollapsed = true;
 
@@ -101,7 +101,7 @@ export class HomeComponent implements OnInit {
   updateProfile(){
     this.auth.getUserState().subscribe(
       user => {
-        this.user = user;
+        if (user) this.userName = user.displayName;
         if (user) this.isLogin = true;
       });
   }
@@ -109,6 +109,6 @@ export class HomeComponent implements OnInit {
   logout(){
     this.auth.logout();
     this.isLogin = false;
-    this.user = null;
+    this.userName = "Anonymous";
   }
 }

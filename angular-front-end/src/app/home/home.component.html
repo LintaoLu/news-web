@@ -10,10 +10,10 @@
         <div class="collapse navbar-collapse" id="navbarsExampleDefault" [ngbCollapse]="isNavbarCollapsed">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" (click)="isNavbarCollapsed = !isNavbarCollapsed; reset('general');">News</a>
+                    <a class="nav-link myClickableThingy" (click)="isNavbarCollapsed = !isNavbarCollapsed; reset('general');">News</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" (click)="isNavbarCollapsed = !isNavbarCollapsed; changeMode('profile');">Author</a>
+                    <a class="nav-link myClickableThingy" (click)="isNavbarCollapsed = !isNavbarCollapsed; changeMode('profile');">Author</a>
                 </li>
                 <li *ngIf="!isLogin" (click)="isNavbarCollapsed = !isNavbarCollapsed" class="nav-item">
                     <a class="nav-link myClickableThingy" (click)="open(content)">Login</a>
@@ -84,13 +84,12 @@
         </div>
     </div>
 
-    <div class="container">
+    <div *ngIf="mode=='news'" class="container">
         <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
             <img class="mr-3" src="assets/images/Profile.png" alt="" width="48" height="48">
             <div class="lh-100">
-                <h6 *ngIf="!user" class="mb-0 text-white lh-100">Anonymous</h6>
-                <h6 *ngIf="user" class="mb-0 text-white lh-100">{{user?.email}}</h6>
-                <small>{{user?.name}} Since 2020</small>
+                <h6 class="mb-0 text-white lh-100">{{userName}}</h6>
+                <small>Since 2020</small>
             </div>
         </div>
     </div>

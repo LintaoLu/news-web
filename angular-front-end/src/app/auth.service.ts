@@ -24,7 +24,7 @@ export class AuthService {
       this.newUser = user;
       
       userCredential.user.updateProfile({
-        displayName: user.name
+        displayName: user.username
       });
 
       this.insertUserData(userCredential);
@@ -46,7 +46,7 @@ export class AuthService {
     return this.afAuth.signInWithEmailAndPassword(email, password).
     catch(error => { 
       this.error = true;
-      this.eventAuthError.next(error)
+      this.eventAuthError.next(error);
     }).then( userCredential => {
       if (userCredential) {
         this.isLogin = true;
@@ -55,11 +55,29 @@ export class AuthService {
   }
 
   logout() {
-    this.isLogin = false;
-    return this.afAuth.signOut();
+    this.afAuth.signOut().then(() => {this.isLogin = false;});
   }
 
   getUserState() {
     return this.afAuth.authState;
+  }
+
+  // Auth logic to run auth providers
+  authLogin(provider) {
+    return this.afAuth.signInWithPopup(provider)
+    .then(() => {
+      this.isLogin = true;
+    }).catch((error) => {
+      this.error = true;
+      this.eventAuthError.next(error);
+    })
+  }
+
+  isEmailVerified() {
+    let hasEmailVerified = true;
+    this.afAuth.currentUser.then(u => { 
+      hasEmailVerified = u.emailVerified;
+    });
+    return hasEmailVerified;
   }
 }

@@ -32,7 +32,7 @@ export class SignupComponent implements OnInit {
 
     this.error = null;
     this.auth.createrUser(frm.value)
-      .then(() => {if (!this.auth.error) {
+      .then(() => { if (!this.auth.error) {
         this.changeMode();
       }});
 
