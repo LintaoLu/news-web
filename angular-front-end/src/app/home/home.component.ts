@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit {
   suggestions = [];
   mode = 'news';
   isLogin = false;
-  userName: any;
+  userName = "Anonymous";
   modalReference: NgbModalRef;
   isNavbarCollapsed = true;
 
