@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { HomeComponent } from '../home/home.component';
 import { auth } from 'firebase/app';
+import 'firebase/auth';
 
 @Component({
   selector: 'app-login',
