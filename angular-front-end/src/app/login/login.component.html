@@ -1,12 +1,16 @@
 <ng-container *ngIf="loginMode">
     <div class="modal-body p-3 fade-in">
         <div class="container">
-            <div class="row" *ngIf="authError">
-                <div class="col-12 alert alert-danger p-2">
+            <div class="row">
+                <div *ngIf="authError" class="col-12 alert alert-danger p-2">
                     {{ authError?.message }}
+                </div>
+                <div *ngIf="message" class="col-12 alert alert-danger p-2">
+                    {{ message }} <a class="pl-2 myClickableThingy text-dark" (click)="sendEmail()">send again</a>
                 </div>
             </div>
             <div *ngIf="authError" class="pt-3"></div>
+            <div *ngIf="message" class="pt-3"></div>
             <form #loginForm="ngForm" (ngSubmit)="login(loginForm)" class="login100-form validate-form">
                 <div class="wrap-input100 validate-input" data-validate="Please enter username">
                     <input class="input100" type="email" name="email" placeholder="Email" ngModel>

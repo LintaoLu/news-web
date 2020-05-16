@@ -12,13 +12,13 @@ export class AuthService {
   eventAuthError = new BehaviorSubject<string>("");
   eventAuthError$ = this.eventAuthError.asObservable();
   newUser: any;
-  error: boolean;
+  hasError: boolean;
   isLogin = false;
 
   constructor(private afAuth: AngularFireAuth, private db: AngularFirestore, private router: Router) { }
 
   public createrUser(user) {
-    this.error = false;
+    this.hasError = false;
     return this.afAuth.createUserWithEmailAndPassword(user.email, user.password)
     .then(userCredential => {
       this.newUser = user;
@@ -30,7 +30,7 @@ export class AuthService {
       this.insertUserData(userCredential);
     })
     .catch( error => {
-      this.error = true;
+      this.hasError = true;
       this.eventAuthError.next(error);
     });
   }
@@ -45,7 +45,7 @@ export class AuthService {
   login(email: string, password: string) {
     return this.afAuth.signInWithEmailAndPassword(email, password).
     catch(error => { 
-      this.error = true;
+      this.hasError = true;
       this.eventAuthError.next(error);
     }).then( userCredential => {
       if (userCredential) {
@@ -68,16 +68,12 @@ export class AuthService {
     .then(() => {
       this.isLogin = true;
     }).catch((error) => {
-      this.error = true;
+      this.hasError = true;
       this.eventAuthError.next(error);
     })
   }
 
-  isEmailVerified() {
-    let hasEmailVerified = true;
-    this.afAuth.currentUser.then(u => { 
-      hasEmailVerified = u.emailVerified;
-    });
-    return hasEmailVerified;
+  getCurrentUser() {
+    return this.afAuth.currentUser;
   }
 }

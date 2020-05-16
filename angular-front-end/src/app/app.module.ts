@@ -27,7 +27,7 @@ import { SignupComponent } from './signup/signup.component';
     NewsComponent,
     MapComponent,
     LoginComponent,
-    SignupComponent
+    SignupComponent,
   ],
   imports: [
     BrowserModule,
@@ -41,7 +41,7 @@ import { SignupComponent } from './signup/signup.component';
     AngularFirestoreModule,
     AngularFireModule.initializeApp(environment.firebase)
   ],
-  providers: [NewsService,],
+  providers: [NewsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
