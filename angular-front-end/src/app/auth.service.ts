@@ -22,11 +22,9 @@ export class AuthService {
     return this.afAuth.createUserWithEmailAndPassword(user.email, user.password)
     .then(userCredential => {
       this.newUser = user;
-      
       userCredential.user.updateProfile({
         displayName: user.username
       });
-
       this.insertUserData(userCredential);
     })
     .catch( error => {

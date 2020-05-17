@@ -103,7 +103,7 @@ export class HomeComponent implements OnInit {
   updateProfile(){
     this.auth.getUserState().subscribe(
       user => {
-        if (user) {
+        if (user && user.emailVerified) {
           this.userName = user.displayName;
           this.isLogin = true;
         }

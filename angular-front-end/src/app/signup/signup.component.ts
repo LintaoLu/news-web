@@ -29,7 +29,7 @@ export class SignupComponent implements OnInit {
       this.error = "Your password and confirmation password do not match."
       return;
     }
-
+    this.authError = null;
     this.error = null;
     this.auth.createrUser(frm.value)
       .then(() => { if (!this.auth.hasError) {
