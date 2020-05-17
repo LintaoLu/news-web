@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NewsService } from '../news.service';
 import { NgbModal, NgbModalConfig, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from '../auth.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-home',
@@ -24,14 +25,15 @@ export class HomeComponent implements OnInit {
   modalReference: NgbModalRef;
   isNavbarCollapsed = true;
 
-  constructor(private newsService: NewsService, config: NgbModalConfig, 
-    private modalService: NgbModal, private auth: AuthService) {
+  constructor(private newsService: NewsService, config: NgbModalConfig, private modalService: NgbModal, 
+    private auth: AuthService,private cookieService: CookieService) {
     // customize default values of modals used by this component tree
     config.backdrop = 'static';
     config.keyboard = false;
    }
 
   ngOnInit() {
+    this.updateProfile();
     this.type = 'general';
     this.getNews();
     this.loadSource();
@@ -101,8 +103,10 @@ export class HomeComponent implements OnInit {
   updateProfile(){
     this.auth.getUserState().subscribe(
       user => {
-        if (user) this.userName = user.displayName;
-        if (user) this.isLogin = true;
+        if (user) {
+          this.userName = user.displayName;
+          this.isLogin = true;
+        }
       });
   }
 

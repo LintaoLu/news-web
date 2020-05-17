@@ -14,6 +14,9 @@ export class LoginComponent implements OnInit {
   loginMode = true;
   authError = null;
   message: string;
+  timeLeft: number;
+  interval;
+  startCountDown = false;
 
   constructor(public auth: AuthService, private homeComponent: HomeComponent) {}
 
@@ -50,7 +53,21 @@ export class LoginComponent implements OnInit {
   sendEmail(){
     this.auth.getCurrentUser().then( u => {
       u.sendEmailVerification();
+      this.timeLeft = 60;
+      this.startCountDown = true;
+      this.startTimer();
     });
+  }
+
+  startTimer() {
+    this.interval = setInterval(() => {
+      if(this.timeLeft > 0) {
+        this.timeLeft--;
+      } else {
+        this.timeLeft = 60;
+        this.startCountDown = false;
+      }
+    },1000);
   }
 
   // Sign in with Google
