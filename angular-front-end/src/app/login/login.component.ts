@@ -30,6 +30,7 @@ export class LoginComponent implements OnInit {
   login(frm) {
     this.message = null;
     this.authError = null;
+    this.auth.logout();
     this.auth.login(frm.value.email, frm.value.password).then(
       () => { if (this.auth.isLogin) {
         this.auth.getCurrentUser().then(u => { 
@@ -37,9 +38,8 @@ export class LoginComponent implements OnInit {
             this.homeComponent.closeModule();
             this.homeComponent.updateProfile();
           }
-          else if (!u.emailVerified){
+          else {
             this.authError = null;
-            this.auth.logout();
             this.message = "Please verify your email!";
           }
         });
