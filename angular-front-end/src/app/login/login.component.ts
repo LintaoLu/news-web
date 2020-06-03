@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit {
           }
           else {
             this.authError = null;
-            this.message = "Please verify your email!";
+            this.message = 'Please verify your email!';
           }
         });
       }}

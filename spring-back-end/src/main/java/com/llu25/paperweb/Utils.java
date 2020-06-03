@@ -21,7 +21,6 @@ public class Utils {
             LRUSize = 500, FIFOSize = 20, autocompleteNum = 10;
     public static final String news_api_key, monkey_learn_api_key;
     public static final List<String> twitter_api_keys;
-
     public static long updatePeriod = 9000000 ; // 2.5h
 
     static {
@@ -78,7 +77,8 @@ public class Utils {
             if (!title.equals("No title")) text .add(title);
             else text.add(description);
 
-            list.add(new News(counter, source, author, title, description, url, urlToImage, publishedAt, new ArrayList<>(), new ArrayList<>()));
+            list.add(new News(counter, source, author, title, description, url, urlToImage, publishedAt,
+                    new ArrayList<>(), new ArrayList<>()));
             counter++;
         }
         // put the remaining news to map

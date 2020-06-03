@@ -19,6 +19,7 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { CookieService } from 'ngx-cookie-service';
+import { UploadProfileComponent } from './upload-profile/upload-profile.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { CookieService } from 'ngx-cookie-service';
     MapComponent,
     LoginComponent,
     SignupComponent,
+    UploadProfileComponent,
   ],
   imports: [
     BrowserModule,

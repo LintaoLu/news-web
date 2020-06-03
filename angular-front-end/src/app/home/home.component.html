@@ -1,100 +1,97 @@
-<body class="bg-light">
-    <nav class="navbar navbar-expand-md fixed-top navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">Demo </a>
-        <button class="navbar-toggler d-lg-none" type="button" data-toggle="offcanvas" (click)="isNavbarCollapsed = !isNavbarCollapsed" 
-            [attr.aria-expanded]="!isNavbarCollapsed" aria-controls="navbarsExampleDefault">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-    
-        <div class="collapse navbar-collapse" id="navbarsExampleDefault" [ngbCollapse]="isNavbarCollapsed">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link myClickableThingy" (click)="isNavbarCollapsed = !isNavbarCollapsed; reset('general');">News</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link myClickableThingy" (click)="isNavbarCollapsed = !isNavbarCollapsed; changeMode('profile');">Author</a>
-                </li>
-                <li *ngIf="!isLogin" (click)="isNavbarCollapsed = !isNavbarCollapsed" class="nav-item">
-                    <a class="nav-link myClickableThingy" (click)="open(content)">Login</a>
-                    <ng-template #content let-c="close" let-d="dismiss">
-                        <div class="modal-header">
-                            <h4 class="modal-title" id="modal-basic-title">Welcome!</h4>
-                            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <app-login></app-login>
-                    </ng-template>
-                </li>
-                <li *ngIf="isLogin" class="nav-item">
-                    <a class="nav-link myClickableThingy" (click)="logout()">Logout</a>
-                </li>
-            </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" list="dynmicUserIds" type="text" placeholder="Search" aria-label="Search" #name 
-                    (keyup)="getSuggestions(name.value)" (keyup.enter)="reset(name.value); name.value=''">
-                    <datalist id="dynmicUserIds">
-                        <option *ngFor="let item of suggestions" [value]="item">{{item}}</option>
-                    </datalist>
-                <button class="btn btn-outline-success my-2 my-sm-0" type="button" (click)="reset(name.value); name.value=''">Search</button>
-            </form>
-        </div>
-    </nav>
+<nav class="navbar navbar-expand-md fixed-top navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Demo </a>
+    <button class="navbar-toggler d-lg-none" type="button" data-toggle="offcanvas" (click)="isNavbarCollapsed = !isNavbarCollapsed" 
+        [attr.aria-expanded]="!isNavbarCollapsed" aria-controls="navbarsExampleDefault">
+        <span class="navbar-toggler-icon"></span>
+    </button>
 
-    <div class="nav-scroller bg-white box-shadow">
-        <nav class="nav nav-underline">
-            <a class="nav-link myClickableThingy" (click)="reset('general')">General</a>
-            <a class="nav-link myClickableThingy" (click)="reset('business')">Business</a>
-            <a class="nav-link myClickableThingy" (click)="reset('entertainment')">Entertainment</a>
-            <a class="nav-link myClickableThingy" (click)="reset('health')">Health</a>
-            <a class="nav-link myClickableThingy" (click)="reset('science')">Science</a>
-            <a class="nav-link myClickableThingy" (click)="reset('sports')">Sports</a>
-            <a class="nav-link myClickableThingy" (click)="reset('technology')">Technology</a>
-            <a class="nav-link myClickableThingy" (click)="changeMode('map')">Map</a>
-            <a class="nav-link myClickableThingy dropdown-toggle" (click)="isCollapsed = !isCollapsed;"
-                [attr.aria-expanded]="!isCollapsed" aria-controls="allNews">More</a>
-        </nav>
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault" [ngbCollapse]="isNavbarCollapsed">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link myClickableThingy" (click)="isNavbarCollapsed = !isNavbarCollapsed; reset('general');">News</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link myClickableThingy" (click)="isNavbarCollapsed = !isNavbarCollapsed; changeMode('profile');">Author</a>
+            </li>
+            <li *ngIf="!isLogin" (click)="isNavbarCollapsed = !isNavbarCollapsed" class="nav-item">
+                <a class="nav-link myClickableThingy" (click)="open(content)">Login</a>
+                <ng-template #content let-c="close" let-d="dismiss">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="modal-basic-title">Welcome!</h4>
+                        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <app-login></app-login>
+                </ng-template>
+            </li>
+            <li *ngIf="isLogin" class="nav-item">
+                <a class="nav-link myClickableThingy" (click)="logout()">Logout</a>
+            </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" list="dynmicUserIds" type="text" placeholder="Search" aria-label="Search" #name 
+                (keyup)="getSuggestions(name.value)" (keyup.enter)="reset(name.value); name.value=''">
+                <datalist id="dynmicUserIds">
+                    <option *ngFor="let item of suggestions" [value]="item">{{item}}</option>
+                </datalist>
+            <button class="btn btn-outline-success my-2 my-sm-0" type="button" (click)="reset(name.value); name.value=''">Search</button>
+        </form>
     </div>
-    <div id="allNews" [ngbCollapse]="isCollapsed" class="mega-menu">
-        <div class="container-fluid px-0">
-            <div class="row no-gutters">
-                <div class="col-12">
-                    <div class="row bg-white rounded-0 m-0 shadow-sm">
-                        <div class="container-fluid bg-light">
-                            <div class="row">
-                                <div class="col-lg-3 mb-2">
-                                    <h6 class="font-weight-bold text-uppercase pl-3 pt-2">Breaking news!</h6>
+</nav>
+
+<div class="nav-scroller bg-white box-shadow">
+    <nav class="nav nav-underline">
+        <a class="nav-link myClickableThingy" (click)="reset('general')">General</a>
+        <a class="nav-link myClickableThingy" (click)="reset('business')">Business</a>
+        <a class="nav-link myClickableThingy" (click)="reset('entertainment')">Entertainment</a>
+        <a class="nav-link myClickableThingy" (click)="reset('health')">Health</a>
+        <a class="nav-link myClickableThingy" (click)="reset('science')">Science</a>
+        <a class="nav-link myClickableThingy" (click)="reset('sports')">Sports</a>
+        <a class="nav-link myClickableThingy" (click)="reset('technology')">Technology</a>
+        <a class="nav-link myClickableThingy" (click)="changeMode('map')">Map</a>
+        <a class="nav-link myClickableThingy dropdown-toggle" (click)="isCollapsed = !isCollapsed;"
+            [attr.aria-expanded]="!isCollapsed" aria-controls="allNews">More</a>
+    </nav>
+</div>
+<div id="allNews" [ngbCollapse]="isCollapsed" class="mega-menu">
+    <div class="container-fluid px-0">
+        <div class="row no-gutters">
+            <div class="col-12">
+                <div class="row bg-white rounded-0 m-0 shadow-sm">
+                    <div class="container-fluid bg-light">
+                        <div class="row">
+                            <div class="col-lg-3 mb-2">
+                                <h6 class="font-weight-bold text-uppercase pl-3 pt-2">Breaking news!</h6>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <ng-container *ngFor="let component of source; let i = index;">
+                                <div *ngIf="i%6==0 && i!=0" class="w-100"><hr/></div>
+                                <div class="col-lg-2 col-sm-12">
+                                    <ul class="list-unstyled">
+                                        <li *ngFor="let c of component;" class="nav-item"><a  class="nav-link text-small pb-0 myClickableThingy" (click)="reset(c.sourceId)">{{c.sourceName}}</a></li>
+                                    </ul>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <ng-container *ngFor="let component of source; let i = index;">
-                                    <div *ngIf="i%6==0 && i!=0" class="w-100"><hr/></div>
-                                    <div class="col-lg-2 col-sm-12">
-                                        <ul class="list-unstyled">
-                                            <li *ngFor="let c of component;" class="nav-item"><a  class="nav-link text-small pb-0 myClickableThingy" (click)="reset(c.sourceId)">{{c.sourceName}}</a></li>
-                                        </ul>
-                                    </div>
-                                </ng-container>
-                            </div>
+                            </ng-container>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <div *ngIf="mode=='news'" class="container">
-        <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
-            <img class="mr-3" src="assets/images/Profile.png" alt="" width="48" height="48">
-            <div class="lh-100">
-                <h6 class="mb-0 text-white lh-100">{{userName}}</h6>
-                <small>Since 2020</small>
-            </div>
+<div *ngIf="mode=='news'" class="container">
+    <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
+        <img class="mr-3" src="assets/images/Profile.png" alt="" width="48" height="48">
+        <div class="lh-100">
+            <h6 class="mb-0 text-white lh-100">{{userName}}</h6>
+            <small>Since 2020</small>
         </div>
     </div>
+</div>
 
-    <app-news *ngIf="mode=='news'" [news]="news" [finished]="finished"></app-news>
-    <app-map *ngIf="mode=='map'"></app-map>
-    <app-profile *ngIf="mode=='profile'"></app-profile>
-
-</body>
+<app-news *ngIf="mode=='news'" [news]="news" [finished]="finished"></app-news>
+<app-map *ngIf="mode=='map'"></app-map>
+<app-profile *ngIf="mode=='profile'"></app-profile>
