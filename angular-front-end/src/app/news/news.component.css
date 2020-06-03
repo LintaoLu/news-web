@@ -90,5 +90,5 @@ ngb-pagination ::ng-deep .page-link:not(:disabled):not(.disabled):active:focus {
 }
 
 main{
-  min-height: 500px;
+  min-height: 1000px;
 }
